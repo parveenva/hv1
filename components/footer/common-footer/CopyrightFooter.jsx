@@ -6,19 +6,18 @@ const CopyrightFooter = () => {
       <div className="auto-container">
         <div className="outer-box">
           <div className="copyright-text">
-            © {new Date().getFullYear()} Superio by{" "}
+            © {new Date().getFullYear()} freshers91 by{" "}
             <a
-              href="https://themeforest.net/user/ib-themes"
+              href="https://www.code91.co"
               target="_blank"
               rel="noopener noreferrer"
             >
-              ib-themes
+             Code91
             </a>
             . All Right Reserved.
           </div>
           <div className="social-links">
-            <Social />
-          </div>
+           </div>
         </div>
       </div>
     </div>

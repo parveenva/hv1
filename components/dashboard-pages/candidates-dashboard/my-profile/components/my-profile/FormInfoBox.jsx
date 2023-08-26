@@ -204,7 +204,7 @@ const FormInfoBox =  ({ afterSave }) => {
     }
 
  
-      const response = await fetch(`http://localhost:8080/candidate/${uId}`, {
+      const response = await fetch(`http://${process.env.NEXT_PUBLIC_API_URL}/candidate/${uId}`, {
         method: "PUT", // Use PUT for editing existing data
         body: formData,
       });

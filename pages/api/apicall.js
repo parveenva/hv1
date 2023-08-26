@@ -7,9 +7,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Missing 'endpoint' query parameter" });
   }
 
-  // Build the complete API endpoint URL using the baseUrl and endpoint from the query parameter
-  const apiUrl = `${"http://localhost:8080/"}${endpoint}`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}${endpoint}`;
 
+  // Build the complete API endpoint URL using the baseUrl and endpoint from the query parameter
+ 
   try {
     if (req.method === "GET") {
       // Handle GET request

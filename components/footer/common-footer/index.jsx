@@ -1,5 +1,8 @@
 import CopyrightFooter from "./CopyrightFooter";
 import FooterContent from "./FooterContent";
+import Link from "next/link";
+import React from "react";
+
 
 const index = ({ footerStyle = "" }) => {
   return (
@@ -17,13 +20,13 @@ const index = ({ footerStyle = "" }) => {
                 </div>
                 <p className="phone-num">
                   <span>Call us </span>
-                  <a href="thebeehost@support.com">123 456 7890</a>
+                  <a href="thebeehost@support.com">9717713724</a>
                 </p>
                 <p className="address">
-                  329 Queensberry Street, North Melbourne VIC
-                  <br /> 3051, Australia. <br />
-                  <a href="mailto:support@superio.com" className="email">
-                    support@superio.com
+                  C-94, Sector 8, Noida. <br />
+                  <a href="mailto:      hr@code91.co" className="email">
+                         
+                          hr@code91.co
                   </a>
                 </p>
               </div>
@@ -32,8 +35,7 @@ const index = ({ footerStyle = "" }) => {
 
             <div className="big-column col-xl-8 col-lg-9 col-md-12">
               <div className="row">
-                <FooterContent />
-              </div>
+               </div>
             </div>
             {/* End col-xl-8 */}
           </div>
@@ -42,6 +44,33 @@ const index = ({ footerStyle = "" }) => {
       {/* End auto-container */}
 
       <CopyrightFooter />
+      <br/>
+      <br/><br/>
+      <div className="fixed-bottom-section">
+           <div className="col-4">
+
+          <Link href="/job-list-v1">
+            <span className="bottom-button">Jobs</span>
+          </Link>
+                </div>
+
+          <div className="col-4">
+
+          
+          <Link href="/ilist">
+            <span className="bottom-button">Internships</span>
+          </Link>
+               </div>
+
+          <div className="col-4">
+
+          
+          <Link href="/blog-list-v1">
+            <span className="bottom-button">Courses</span>
+          </Link>
+            </div>
+             </div>
+
       {/* <!--Bottom--> */}
     </footer>
     //   {/* <!-- End Main Footer --> */}

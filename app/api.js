@@ -8,7 +8,10 @@ export default async function handler(req, res) {
   }
 
   // Build the complete API endpoint URL using the baseUrl and endpoint from the query parameter
-  const apiUrl = `${"http://localhost:8080/"}${endpoint}`;
+  //const apiUrl = `${"http://localhost:8080/"}${endpoint}`;
+
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}${endpoint}`;
+
 
   try {
     if (req.method === "GET") {

@@ -34,7 +34,7 @@ const ContactInfoBox = () => {
           <input
             type="text"
             name="name"
-            placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
+            placeholder="C-94, Sector 8, Noida."
             required
           />
         </div>
@@ -45,7 +45,7 @@ const ContactInfoBox = () => {
           <input
             type="text"
             name="name"
-            placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia."
+            placeholder="C-94, Sector 8, Noida."
             required
           />
         </div>

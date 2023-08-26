@@ -524,3 +524,49 @@
     font-weight: bold;
   }
   
+  /* Add this CSS to style the fixed bottom section */
+.fixed-bottom-section {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f5f5f5;
+    padding: 10px;
+    display: none; /* Initially hide on larger screens */
+  }
+  
+  @media (max-width: 768px) {
+    /* Show the fixed bottom section on smaller screens */
+    .fixed-bottom-section {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+      }
+  
+
+  /* styles.css */
+  
+  .col-4 {
+     text-align: center;
+    width: 33.33%;
+
+    padding: 10px;
+    background-color: #f0f0f0; /* Replace with your desired background color */
+    color: #333; /* Replace with your desired text color */
+    cursor: pointer;
+  }
+
+  .bottom-button {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background-color: #f0f0f0; /* Replace with your desired background color */
+    color: #333; /* Replace with your desired text color */
+    cursor: pointer;
+  }
+  
+  .bottom-button:hover {
+    background-color: #2980b9;
+  }
+  

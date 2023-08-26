@@ -204,7 +204,7 @@ const ViewCandidateInfo =  ({ afterSave }) => {
     }
 
  
-      const response = await fetch(`http://localhost:8080/candidate/${uId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/candidate/${uId}`, {
         method: "PUT", // Use PUT for editing existing data
         body: formData,
       });
@@ -860,7 +860,7 @@ const ViewCandidateInfo =  ({ afterSave }) => {
         <div className="form-group col-lg-12 col-md-12">
         <label>Resume File</label>
         {candidateData.filePath    && (
-          <a href={`http://localhost:8080/${candidateData.filePath}`} target="_blank" rel="noopener noreferrer">
+          <a href={`${process.env.NEXT_PUBLIC_API_URL}/${candidateData.filePath}`} target="_blank" rel="noopener noreferrer">
             Download Resume
           </a>
         )}

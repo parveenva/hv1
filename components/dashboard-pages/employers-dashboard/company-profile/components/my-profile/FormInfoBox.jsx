@@ -43,7 +43,7 @@ const FormInfoBox = () => {
                     <input
                         type="text"
                         name="name"
-                        placeholder="0 123 456 7890"
+                        placeholder="0 9717713724"
                         required
                     />
                 </div>

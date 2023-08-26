@@ -8,7 +8,7 @@ import {
   SubMenu,
 } from "react-pro-sidebar";
 
-import mobileMenuData from "../../../data/mobileMenuData";
+import mobileMenuData from "../../../data/mobileMenuData1";
 import SidebarFooter from "./SidebarFooter";
 import SidebarHeader from "./SidebarHeader";
 import {
@@ -32,7 +32,25 @@ const Index = () => {
 
       <ProSidebarProvider>
         <Sidebar>
-          <Menu>
+        <Menu>
+            {mobileMenuData.map((item) => (
+ 
+              <MenuItem
+              className={
+                isActiveLink(item.routePath, router.asPath)
+                  ? "menu-active-link"
+                  : ""
+              }
+               routerLink={<Link href={item.routePath} />}
+            >
+              {item.name}
+            </MenuItem>
+          
+
+            ))}
+          </Menu>
+          
+          {/* <Menu>
             {mobileMenuData.map((item) => (
               <SubMenu
                 className={
@@ -58,7 +76,7 @@ const Index = () => {
                 ))}
               </SubMenu>
             ))}
-          </Menu>
+          </Menu> */}
         </Sidebar>
       </ProSidebarProvider>
 

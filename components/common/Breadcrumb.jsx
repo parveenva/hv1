@@ -7,10 +7,7 @@ const Breadcrumb = ({ title = "", meta = "" }) => {
         <div className="title-outer">
           <h1>{title}</h1>
           <ul className="page-breadcrumb">
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>{meta}</li>
+            
           </ul>
         </div>
       </div>
