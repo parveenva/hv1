@@ -13,7 +13,7 @@ const Register = () => {
 
   return (
     <div className="form-inner">
-      <h3>Create a Free Superio Account</h3>
+      <h3>Create a Free Account</h3>
 
       <Tabs onSelect={handleTabSelect}>
         <div className="form-group register-dual">
@@ -24,11 +24,6 @@ const Register = () => {
               </button>
             </Tab>
 
-            <Tab className="col-lg-6 col-md-12">
-              <button className="theme-btn btn-style-four">
-                <i className="la la-briefcase"></i> Employer
-              </button>
-            </Tab>
           </TabList>
         </div>
         {/* End .form-group */}
@@ -58,10 +53,6 @@ const Register = () => {
             LogIn
           </Link>
         </div>
-        <div className="divider">
-          <span>or</span>
-        </div>
-        <LoginWithSocial />
       </div>
       {/* End bottom-box LoginWithSocial */}
     </div>

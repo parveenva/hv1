@@ -59,7 +59,7 @@ const PostBoxForm = ({ onSubmit }) => {
 
     try {
       // Make API request using the apicall proxy
-      const response = await fetch("/api/apicall?endpoint=job", {
+      const response = await fetch("${process.env.NEXT_PUBLIC_API_URL}job", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

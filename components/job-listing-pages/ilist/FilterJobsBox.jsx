@@ -37,7 +37,7 @@ const FilterJobsBox = () => {
       try {
         // Call the generic API route and provide the desired endpoint as a query parameter
 
-        const response = await fetch(`/api/apicall?endpoint=${(endpoint)}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${(endpoint)}`);
 
          const data = await response.json();
          
@@ -151,13 +151,7 @@ const FilterJobsBox = () => {
             <div className="job-block" key={item.id}>
                 <div className="inner-box">
                     <div className="content">
-                    <span className="company-logo">
-  {item.logo ? (
-    <img src={item.logo} alt="item brand" />
-  ) : (
-    <div className="placeholder-logo">{item.jobTitle.charAt(0)}</div>
-  )}
-</span>
+           
 
                         <h4>
                             <Link href={`/job-single-v1/${item._id}`}>
@@ -193,18 +187,23 @@ const FilterJobsBox = () => {
                         </ul>
                         {/* End .job-info */}
 
-                        <ul className="job-other-info">
+                        <ul className="job-info">
+                        <span className="icon flaticon-lightbulb"></span>
                             {item?.skills?.map((val, i) => (
-                                <li key={i} className={`${val.styleClass}`}>
+                                <li key={i} >
                                     {val}
                                 </li>
                             ))}
                         </ul>
                         {/* End .job-other-info */}
 
+                        
+                        <ul className="job-info">
 
-                        <ul className="job-other-info">
                         <li>
+
+                        <span className="icon flaticon-notebook"></span>
+
                                  {item.jd}
                             </li>
                            </ul>
@@ -249,102 +248,6 @@ const FilterJobsBox = () => {
 
     return (
         <>
-            <div className="ls-switcher">
-                <div className="show-result">
-                    <div className="show-1023">
-                        <button
-                            type="button"
-                            className="theme-btn toggle-filters "
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#filter-sidebar"
-                        >
-                            <span className="icon icon-filter"></span> Filter
-                        </button>
-                    </div>
-                    {/* Collapsible sidebar button */}
-
-                    <div className="text">
-                        Showing <strong>{content?.length}</strong> internships
-                    </div>
-                </div>
-                {/* End show-result */}
-
-                <div className="sort-by">
-                    {keyword !== "" ||
-                    city !== "" ||
-                    destination?.min !== 0 ||
-                    destination?.max !== 100 ||
-                    category !== "" ||
-                    jobType?.length !== 0 ||
-                    datePosted !== "" ||
-                    experience?.length !== 0 ||
-                    salary?.min !== 0 ||
-                    salary?.max !== 20000 ||
-                    tag !== "" ||
-                    sort !== "" ||
-                    perPage.start !== 0 ||
-                    perPage.end !== 0 ? (
-                        <button
-                            onClick={clearAll}
-                            className="btn btn-danger text-nowrap me-2"
-                            style={{ minHeight: "45px", marginBottom: "15px" }}
-                        >
-                            Clear All
-                        </button>
-                    ) : undefined}
-
-                    <select
-                        value={sort}
-                        className="chosen-single form-select"
-                        onChange={sortHandler}
-                    >
-                        <option value="">Sort by (default)</option>
-                        <option value="asc">Newest</option>
-                        <option value="des">Oldest</option>
-                    </select>
-                    {/* End select */}
-
-                    <select
-                        onChange={perPageHandler}
-                        className="chosen-single form-select ms-3 "
-                        value={JSON.stringify(perPage)}
-                    >
-                        <option
-                            value={JSON.stringify({
-                                start: 0,
-                                end: 0,
-                            })}
-                        >
-                            All
-                        </option>
-                        <option
-                            value={JSON.stringify({
-                                start: 0,
-                                end: 10,
-                            })}
-                        >
-                            10 per page
-                        </option>
-                        <option
-                            value={JSON.stringify({
-                                start: 0,
-                                end: 20,
-                            })}
-                        >
-                            20 per page
-                        </option>
-                        <option
-                            value={JSON.stringify({
-                                start: 0,
-                                end: 30,
-                            })}
-                        >
-                            30 per page
-                        </option>
-                    </select>
-                    {/* End select */}
-                </div>
-            </div>
             {/* End top filter bar box */}
             {content}
             {/* <!-- List Show More --> */}

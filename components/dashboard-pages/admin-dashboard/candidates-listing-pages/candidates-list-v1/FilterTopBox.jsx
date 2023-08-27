@@ -44,7 +44,7 @@ const FilterTopBox = () => {
         const fetchCandidates = async () => {
             try {
 
-                const response = await fetch(`/api/apicall?endpoint=candidate`); // Replace with your API endpoint
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}candidate`); // Replace with your API endpoint
 
               //  const response = await fetch(`/api/candidates`); // Replace with your API endpoint
                 const data = await response.json();

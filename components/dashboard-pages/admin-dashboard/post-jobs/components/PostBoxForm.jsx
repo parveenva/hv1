@@ -87,7 +87,7 @@ const PostBoxForm = ({ onSubmit }) => {
 
         
         
-        const response = await fetch("/api/apicall?endpoint=company"); // Replace with your API endpoint
+        const response = await fetch("${process.env.NEXT_PUBLIC_API_URL}company"); // Replace with your API endpoint
         if (!response.ok) {
           throw new Error("Error fetching companies");
         }
@@ -122,7 +122,7 @@ const PostBoxForm = ({ onSubmit }) => {
 
     try {
       // Make API request using the apicall proxy
-      const response = await fetch("/api/apicall?endpoint=job", {
+      const response = await fetch("${process.env.NEXT_PUBLIC_API_URL}job", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

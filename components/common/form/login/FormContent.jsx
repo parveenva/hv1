@@ -31,7 +31,7 @@ const FormContent = () => {
 
     try {
       // Make API request to handle form submission
-      const response = await fetch(`/api/apicall?endpoint=${endpoint}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +90,7 @@ if (userRole === "candidate") {
 
   return (
     <div className="form-inner">
-      <h3>Login to Superio</h3>
+      <h3>Login</h3>
 
       {/* <!--Login Form--> */}
       <form onSubmit={handleSubmit}>
@@ -163,11 +163,6 @@ if (userRole === "candidate") {
           </Link>
         </div>
 
-        <div className="divider">
-          <span>or</span>
-        </div>
-
-        <LoginWithSocial />
       </div>
       {/* End bottom-box LoginWithSocial */}
     </div>

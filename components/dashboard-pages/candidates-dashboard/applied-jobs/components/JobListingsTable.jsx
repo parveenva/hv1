@@ -11,7 +11,7 @@ const JobListingsTable = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch("/api/apicall?endpoint=appliedjobs?id=${uId}`"); // Adjust the API endpoint
+        const response = await fetch("${process.env.NEXT_PUBLIC_API_URL}appliedjobs?id=${uId}`"); // Adjust the API endpoint
         const data = await response.json();
         setJobs(data);
       } catch (error) {

@@ -406,7 +406,7 @@ Job Section
 
 .job-block .content {
   position: relative;
-  padding-left: 68px;
+  padding-left: 10px;
   min-height: 51px;
 }
 
@@ -421,15 +421,16 @@ Job Section
 }
 
 .job-block h4 {
-  font-size: 18px;
+  font-size: 24px;
   color: #202124;
-  font-weight: 500;
-  line-height: 26px;
+  font-weight: 800;
+  line-height: 32px;
   top: -3px;
   margin-bottom: 3px;
 }
 
 .job-block h4 a {
+  font-size: 24px;
   color: #202124;
   -webkit-transition: all 300ms ease;
   -o-transition: all 300ms ease;
@@ -495,9 +496,29 @@ Job Section
   background: #ecedf2;
 }
 
-.job-block .job-other-info {
+
+.job-block .job-info2 {
   position: relative;
   display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.job-block .job-info2 li {
+  position: relative;
+  font-size: 14px;
+  line-height: 22px;
+  color: #696969;
+  font-weight: 400;
+  margin-bottom: 5px;
+  margin-right: 20px;
+}
+
+.job-block .job-other-info {
+   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
@@ -505,11 +526,9 @@ Job Section
 }
 
 .job-other-info li {
-  position: relative;
-  font-size: 13px;
+   font-size: 13px;
   line-height: 15px;
-  margin-right: 15px;
-  padding: 5px 20px;
+   padding: 5px 20px;
   border-radius: 50px;
   margin-bottom: 10px;
 }

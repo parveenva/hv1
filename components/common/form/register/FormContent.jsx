@@ -45,7 +45,7 @@ if (nameParts.length < 2) {
       const dataWithRole = { ...formData, role };
 
       // Make API request to handle form submission
-      const response = await fetch(`/api/apicall?endpoint=${endpoint}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,7 +79,7 @@ if (userId) {
   };
 
   // Make the API call to create a new candidate
-  const createCandidateResponse = await fetch(`/api/apicall?endpoint=candidate`, {
+  const createCandidateResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}candidate`, {
 
      method: 'POST',
     body: JSON.stringify(candidateData),
@@ -106,7 +106,7 @@ if (userId) {
  
 
     try {
-       const response = await fetch(`/api/apicall?endpoint=user/login`, {
+       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

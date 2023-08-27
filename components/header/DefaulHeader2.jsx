@@ -55,7 +55,7 @@ const DefaulHeader2 = () => {
         </Link>
       ) : userRole === "candidate" ? (
         <Link href="/candidates-dashboard/cv-manager" className="upload-cv">
-          Upload your CV
+          {/* Upload your CV */}
         </Link>
       ) : null}
 

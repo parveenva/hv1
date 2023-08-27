@@ -37,7 +37,17 @@ const FilterJobsBox = () => {
       try {
         // Call the generic API route and provide the desired endpoint as a query parameter
 
-        const response = await fetch(`/api/apicall?endpoint=${(endpoint)}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${(endpoint)}`,
+        
+        {
+            headers: {
+              Referer: 'no-referrer',
+              // Other headers
+            }
+        });
+
+        const apiUrl = `${endpoint}`;
+
 
          const data = await response.json();
          
@@ -151,13 +161,7 @@ const FilterJobsBox = () => {
             <div className="job-block" key={item.id}>
                 <div className="inner-box">
                     <div className="content">
-                    <span className="company-logo">
-  {item.logo ? (
-    <img src={item.logo} alt="item brand" />
-  ) : (
-    <div className="placeholder-logo">{item.jobTitle.charAt(0)}</div>
-  )}
-</span>
+           
 
                         <h4>
                             <Link href={`/job-single-v1/${item._id}`}>
@@ -193,18 +197,23 @@ const FilterJobsBox = () => {
                         </ul>
                         {/* End .job-info */}
 
-                        <ul className="job-other-info">
+                        <ul className="job-info">
+                        <span className="icon flaticon-lightbulb"></span>
                             {item?.skills?.map((val, i) => (
-                                <li key={i} className={`${val.styleClass}`}>
+                                <li key={i} >
                                     {val}
                                 </li>
                             ))}
                         </ul>
                         {/* End .job-other-info */}
 
+                        
+                        <ul className="job-info">
 
-                        <ul className="job-other-info">
                         <li>
+
+                        <span className="icon flaticon-notebook"></span>
+
                                  {item.jd}
                             </li>
                            </ul>

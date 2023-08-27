@@ -548,7 +548,7 @@
   /* styles.css */
   
   .col-4 {
-     text-align: center;
+        text-align: center;
     width: 33.33%;
 
     padding: 10px;
@@ -559,6 +559,8 @@
 
   .bottom-button {
     width: 100%;
+    font-weight: bold;
+
     text-align: center;
     padding: 10px;
     background-color: #f0f0f0; /* Replace with your desired background color */

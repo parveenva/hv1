@@ -277,7 +277,7 @@ const FormInfoBox =  ({ afterSave }) => {
       try {
         console.log("uId-----:", uId);
 
-        const response = await fetch(`/api/apicall?endpoint=candidate?id=${uId}`); // Replace with your API endpoint
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}candidate?id=${uId}`); // Replace with your API endpoint
         const data = await response.json();
         setCandidateData(data[0]);
       } catch (error) {

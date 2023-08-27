@@ -21,7 +21,7 @@ const index = () => {
             <MobileMenu />
             {/* End MobileMenu */}
 
-            <Breadcrumb title="Find Internships" meta="Internships" />
+            <Breadcrumb title="Join us and Explore Numerous Internship Opportunities" meta="Internships" />
             {/* <!--End Breadcrumb Start--> */}
 
             <section className="ls-section">
@@ -34,13 +34,13 @@ const index = () => {
                             aria-labelledby="offcanvasLabel"
                         >
                             <div className="filters-column hide-left">
-                                <FilterSidebar />
+                                {/* <FilterSidebar /> */}
                             </div>
                         </div>
                         {/* End filter column for tablet and mobile devices */}
 
                         <div className="filters-column hidden-1023 col-lg-4 col-md-12 col-sm-12">
-                            <FilterSidebar />
+                            {/* <FilterSidebar /> */}
                         </div>
                         {/* <!-- End Filters Column for destop and laptop --> */}
 

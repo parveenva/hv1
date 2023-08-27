@@ -15,7 +15,7 @@ const JobListingsTable = () => {
     try {
       // Call the generic API route and provide the desired endpoint as a query parameter
 
-      const response = await fetch(`/api/apicall?endpoint=${(endpoint)}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${(endpoint)}`);
 
        const data = await response.json();
        
