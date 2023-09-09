@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 // import jobs from "../../data/job-featured";
 import LoginPopup from "../../components/common/form/login/LoginPopup";
 import FooterDefault from "../../components/footer/common-footer";
-import DefaulHeader from "../../components/header/DefaulHeader";
+import DefaulHeader2 from "../../components/header/DefaulHeader2";
 import MobileMenu from "../../components/header/MobileMenu";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -16,6 +16,8 @@ import SocialTwo from "../../components/job-single-pages/social/SocialTwo";
 import JobDetailsDescriptions from "../../components/job-single-pages/shared-components/JobDetailsDescriptions";
 import ApplyJobModalContent from "../../components/job-single-pages/shared-components/ApplyJobModalContent";
 import { useAuth } from "../../app/authContext";
+import Link from "next/link";
+
 
 const JobSingleDynamicV1 = () => {
   const router = useRouter();
@@ -23,7 +25,7 @@ const JobSingleDynamicV1 = () => {
 
   const [company, setCompany] = useState({});
  
-  const { userRole, isLoggedIn ,uId} = useAuth();
+  const { logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
 
   
   const currentPath = window.location.pathname;
@@ -34,20 +36,24 @@ const JobSingleDynamicV1 = () => {
 
 
   const [formData, setFormData] = useState({
-    candidateId: uId,
+    candidateId: getUserId(),
     jobId: jobId,
     coverLetter: "",
   });
 
   const [isApplied, setIsApplied] = useState(false);
+  const [applyMessage, setApplyMessage] = useState(""); // Initialize state
+
 
   // Handle form submission
   const handleApplyJobAPI = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
-    try {
+    console.log("in handleApplyJobAPI");
+
+     try {
       // Make API request to handle form submission
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/application`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}application`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,6 +72,9 @@ const JobSingleDynamicV1 = () => {
       }
       // Handle the API response if needed
       console.log("Job Applied successfully:", data);
+
+          setApplyMessage(data.message); // Set the message from the API response
+
       setIsApplied(true); // Set state to indicate successful application
 
     } catch (error) {
@@ -116,7 +125,7 @@ const JobSingleDynamicV1 = () => {
 
   return (
     <>
-      <Seo pageTitle="Job Single Dyanmic V1" />
+      <Seo pageTitle="Jobs for freshers in India" />
 
       {/* <!-- Header Span --> */}
       <span className="header-span"></span>
@@ -124,7 +133,7 @@ const JobSingleDynamicV1 = () => {
       <LoginPopup />
       {/* End Login Popup Modal */}
 
-      <DefaulHeader />
+      <DefaulHeader2 />
       {/* <!--End Main Header --> */}
 
       <MobileMenu />
@@ -197,9 +206,14 @@ const JobSingleDynamicV1 = () => {
                 {/* End .content */}
   
                 <div className="btn-box">
-        {isLoggedIn && userRole === "candidate" ? (
+        {getIsLoggedIn() && getUserRole() === "candidate" ? (
           isApplied ? (
+
+                  <div> {applyMessage && <p style={{ color: 'green' }}>{applyMessage}</p>}
+
             <span className="theme-btn btn-style-one">Applied</span>
+            </div>
+    
           ) : (
             <button
               className="theme-btn btn-style-one"
@@ -209,14 +223,17 @@ const JobSingleDynamicV1 = () => {
             </button>
           )
         ) : (
-          <a
-            href="#"
-            className="theme-btn btn-style-one"
-            data-bs-toggle="modal"
-            data-bs-target="#applyJobModal"
-          >
+
+          <Link href="#"              
+          className="theme-btn btn-style-one call-modal"
+          data-bs-toggle="modal"
+          data-bs-target="#registerModal"
+       >
             Apply For Job
-          </a>
+          </Link>
+       
+       
+         
         )}
       </div>
   

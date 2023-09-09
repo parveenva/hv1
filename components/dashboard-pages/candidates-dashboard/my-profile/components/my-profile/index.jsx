@@ -9,7 +9,7 @@ import React, { useState } from "react";
 // import LogoUpload from "./LogoUpload";
 
 const index = () => {
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(true);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -25,12 +25,11 @@ const index = () => {
   return (
     <div className="widget-content">
       {/* End logo and cover photo components */}
-      <div className="button-container">
+      <div className="button-container"  style={{ textAlign: "center", marginRight: "10px" }}>
 
       {!editMode && (
-             <button
-             className="theme-link"
-             onClick={() => setEditMode(true)}
+             <button className="theme-btn btn-style-one"
+              onClick={() => setEditMode(true)}
            >
              Edit
            </button>

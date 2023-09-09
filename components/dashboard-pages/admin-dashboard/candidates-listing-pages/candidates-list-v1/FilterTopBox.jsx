@@ -1,6 +1,8 @@
 import Link from "next/link";
 import ListingShowing from "../components/ListingShowing";
 import { useDispatch, useSelector } from "react-redux";
+import { useAuth } from "../../../../../app/authContext";
+
 import {
     addCandidateGender,
     addCategory,
@@ -20,7 +22,11 @@ import {
 } from "../../../../../features/candidate/candidateSlice";
 import { useEffect, useState } from "react";
 
+
 const FilterTopBox = () => {
+
+    const { setToken,getToken,logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
+
     const {
         keyword,
         location,
@@ -38,14 +44,23 @@ const FilterTopBox = () => {
 
     const [candidates, setCandidates] = useState([]);
 
+    const accessToken = getToken();
 
     useEffect(() => {
         // Fetch candidates from the API
         const fetchCandidates = async () => {
             try {
 
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}candidate`); // Replace with your API endpoint
 
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}candidate`, {
+                    method: 'GET', // Specify the HTTP method (GET in this case)
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`, // Include the authorization token
+                        'Content-Type': 'application/json', // Set the content type if needed
+                    },
+                });
+
+ 
               //  const response = await fetch(`/api/candidates`); // Replace with your API endpoint
                 const data = await response.json();
                 console.log("data :", data);
@@ -119,65 +134,28 @@ const FilterTopBox = () => {
     const sortFilter = (a, b) =>
         sort === "des" ? a.id > b.id && -1 : a.id < b.id && -1;
 
-    let content = candidates
+        let content = candidates
         ?.slice(perPage.start, perPage.end === 0 ? 10 : perPage.end)
-      //  ?.filter(keywordFilter)
-        //?.filter(locationFilter)
-        //?.filter(destinationFilter)
-        ?.filter(categoryFilter)
-        //?.filter(genderFilter)
-        //?.filter(datePostedFilter)
-        //?.filter(experienceFilter)
-        //?.filter(qualificationFilter)
-        ?.sort(sortFilter)
+        // Filter, sort, or map operations as needed
         ?.map((candidate) => (
-            <div className="candidate-block-three" key={candidate.id}>
-                <div className="inner-box">
-                    <div className="content">
-                        <h4 className="name">
-                            <Link
-                                href={`/candidates-single-v1/${candidate.id}`}
-                            >
-                                {candidate.firstName} {candidate.lastName}
-                            </Link>
-                        </h4>
-
-                        <ul className="candidate-info">
-                            <li className="designation">
-                                {candidate.designation}
-                            </li>
-                            <li>
-                                <span className="icon flaticon-map-locator"></span>{" "}
-                                {candidate.location}
-                            </li>
-                            <li>
-                                <span className="icon flaticon-money"></span> $
-                                {candidate.hourlyRate} / hour
-                            </li>
-                        </ul>
-                        {/* End candidate-info */}
-
-                       
-                    </div>
-                    {/* End content */}
-
-                    <div className="btn-box">
-                        <button className="bookmark-btn me-2">
-                            <span className="flaticon-bookmark"></span>
-                        </button>
-                        {/* End bookmark-btn */}
-
-                        <Link
-                            href={`/candidates-single-v1/${candidate.id}`}
-                            className="theme-btn btn-style-three"
-                        >
-                            <span className="btn-title">View Profile</span>
-                        </Link>
-                    </div>
-                    {/* End btn-box */}
-                </div>
-            </div>
+          <tr key={candidate._id}>
+            <td>{`${candidate.firstName} ${candidate.lastName}`}</td>
+            <td>{candidate.phone}</td>
+            <td>{candidate.currentCity}</td>
+            <td>{candidate.leadSource}</td>
+            <td>{candidate.leadStatus}</td>
+            {/* Display lead owner's name if available */}
+            <td>{candidate.leadOwner ? candidate.leadOwner : ''}</td>
+            <td>{candidate.lastContactedDate ? new Date(candidate.lastContactedDate).toLocaleDateString() : ''}</td>
+            <td>{candidate.nextFollowUpDate ? new Date(candidate.nextFollowUpDate).toLocaleDateString() : ''}</td>
+            <td className="lead-actions">
+              <button>Edit</button>
+              <button>Delete</button>
+            </td>
+          </tr>
         ));
+       
+
 
     // sort handler
     const sortHandler = (e) => {
@@ -210,6 +188,18 @@ const FilterTopBox = () => {
     return (
         <>
             <div className="ls-switcher">
+
+                
+          <div >            
+            <Link href={`/admin-dash/add-candidate`}>
+Add New                            </Link>
+          </div>
+          
+          
+          <div >            
+            <Link href={`/admin-dash/parse-leads`}>
+Parse sheet                            </Link>
+          </div>
                 <div className="showing-result">
                     <div className="show-1023">
                         <button
@@ -224,7 +214,7 @@ const FilterTopBox = () => {
                     {/* Collapsible sidebar button */}
 
                     <div className="text">
-                        <strong>{content?.length}</strong> candidates
+                        <strong>{candidates?.length}</strong> candidates
                     </div>
                 </div>
                 {/* End showing-result */}
@@ -305,9 +295,61 @@ const FilterTopBox = () => {
             </div>
             {/* End top filter bar box */}
 
-            {content}
 
-            <ListingShowing />
+            <table className="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>Source</th>
+            <th>Status</th>
+            <th>Owner</th>
+            <th>Last Contact</th>
+            <th>Next</th>
+          </tr>
+        </thead>
+        <tbody>
+          {candidates
+            ?.slice(perPage.start, perPage.end === 0 ? 50 : perPage.end)
+            // Filter, sort, or map operations as needed
+            ?.map((candidate) => (
+              <tr key={candidate._id}>
+                <td>
+
+                <Link href={`/admin-dash/edit-candidate/${candidate._id}`}>
+
+       {`${candidate.name}`}
+    </Link>
+                    </td>
+                <td>{candidate.phone}</td>
+                <td>{candidate.currentCity}</td>
+                <td>{candidate.leadSource}</td>
+                <td>{candidate.leadStatus}</td>
+                {/* Display lead owner's name if available */}
+                <td>{candidate.leadOwner ? candidate.leadOwner : ''}</td>
+                <td>{candidate.lastContactedDate ? new Date(candidate.lastContactedDate).toLocaleDateString() : ''}</td>
+                <td>{candidate.nextFollowUpDate ? new Date(candidate.nextFollowUpDate).toLocaleDateString() : ''}</td>
+                {/* <td className="lead-actions">
+
+                           
+           
+
+                <Link href={`/admin-dash/edit-candidate/${candidate._id}`}>
+  <button className="btn btn-primary">
+    <i className="fas fa-pencil-alt"></i> {/* Edit Icon */}
+  {/* </button>
+</Link>
+  <button className="btn btn-danger">
+    <i className="fas fa-trash-alt"></i> {/* Delete Icon */}
+  {/* </button> */}
+
+              </tr>
+            ))}
+        </tbody>
+      </table>
+
+            {/* <ListingShowing /> */}
             {/* <!-- Listing Show More --> */}
         </>
     );

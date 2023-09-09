@@ -10,6 +10,9 @@ import Breadcrumb from "../../../../common/Breadcrumb";
 import DefaulHeader2 from "../../../../header/DefaulHeader2";
  import FilterTopBox from "./FilterTopBox";
 import FilterSidebar from "./FilterSidebar";
+import withAuth from "../../../../../app/withAuth";
+import { Link } from "react-router-dom"; // Import the Link component
+
 
 const index = () => {
   return (
@@ -35,10 +38,14 @@ const index = () => {
           <BreadCrumb title="All Candidates!" />
           {/* breadCrumb */}
 
+
           <MenuToggler />
           {/* Collapsible sidebar button */}
 
+
           <div className="row">
+            
+
             <div className="col-lg-12">
               {/* <!-- Ls widget --> */}
                <FilterTopBox />
@@ -57,4 +64,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default withAuth(index);

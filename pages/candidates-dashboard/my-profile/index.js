@@ -5,7 +5,7 @@ import MyProfile from "../../../components/dashboard-pages/candidates-dashboard/
 const index = () => {
   return (
     <>
-      <Seo pageTitle="My Profile" />
+      <Seo pageTitle="Freshers resumes" />
       <MyProfile />
     </>
   );

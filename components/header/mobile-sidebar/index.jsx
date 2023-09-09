@@ -16,9 +16,14 @@ import {
   isActiveParentChaild,
 } from "../../../utils/linkActiveChecker";
 import { useRouter } from "next/router";
+import { useAuth } from "../../../app/authContext";
+
 
 const Index = () => {
   const router = useRouter();
+
+  const { logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
+
 
   return (
     <div
@@ -33,22 +38,40 @@ const Index = () => {
       <ProSidebarProvider>
         <Sidebar>
         <Menu>
+        
             {mobileMenuData.map((item) => (
  
-              <MenuItem
-              className={
+        (!item.auth ) || (item.auth && getIsLoggedIn()) ? (
+                  <MenuItem
+               className={
                 isActiveLink(item.routePath, router.asPath)
                   ? "menu-active-link"
                   : ""
               }
-               routerLink={<Link href={item.routePath} />}
+              routerLink={<Link href={item.routePath} />}
             >
               {item.name}
             </MenuItem>
+      ) : null
+      )
+                           
+
+
+            //   <MenuItem
+            //   className={
+            //     isActiveLink(item.routePath, router.asPath)
+            //       ? "menu-active-link"
+            //       : ""
+            //   }
+            //    routerLink={<Link href={item.routePath} />}
+            // >
+            //   {item.name}
+            // </MenuItem>
           
 
-            ))}
-          </Menu>
+            )}
+        
+        </Menu>
           
           {/* <Menu>
             {mobileMenuData.map((item) => (

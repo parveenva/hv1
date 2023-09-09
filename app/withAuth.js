@@ -6,15 +6,15 @@ import { useAuth } from "./authContext";
 const withAuth = (WrappedComponent) => {
   const Wrapper = (props) => {
     const router = useRouter();
-    const { isLoggedIn } = useAuth();
+    const { getIsLoggedIn} = useAuth();
 
     useEffect(() => {
-      if (!isLoggedIn) {
+      if (!getIsLoggedIn()) {
         router.push("/login"); // Redirect to login page if not logged in
       }
-    }, [isLoggedIn]);
+    }, [getIsLoggedIn()]);
 
-    if (!isLoggedIn) {
+    if (!getIsLoggedIn()) {
       return null; // Or you can show a loading spinner or message
     }
 

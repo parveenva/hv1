@@ -56,15 +56,15 @@ const DashboardHeader = () => {
                     {/* End .nav-outer */}
 
                     <div className="outer-box">
-                        <button className="menu-btn">
+                        {/* <button className="menu-btn">
                             <span className="count">1</span>
                             <span className="icon la la-heart-o"></span>
                         </button>
                         {/* wishlisted menu */}
 
-                        <button className="menu-btn">
+                        {/* <button className="menu-btn">
                             <span className="icon la la-bell"></span>
-                        </button>
+                        </button> */}
                         {/* End notification-icon */}
 
                         {/* <!-- Dashboard Option --> */}
@@ -75,13 +75,13 @@ const DashboardHeader = () => {
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             >
-                                <Image
+                                {/* <Image
                                     alt="avatar"
                                     className="thumb"
                                     src="/images/resource/company-6.png"
                                     width={50}
                                     height={50}
-                                />
+                                /> */}
                                 <span className="name">My Account</span>
                             </a>
 

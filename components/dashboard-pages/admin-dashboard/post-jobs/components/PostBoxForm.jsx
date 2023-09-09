@@ -17,7 +17,51 @@ const PostBoxForm = ({ onSubmit }) => {
 
   const router = useRouter();
 
+  const [isCompanyModalOpen, setCompanyModalOpen] = useState(false);
+  const [newCompanyName, setNewCompanyName] = useState(""); // Store the new company name
  
+
+  // Function to open the company modal
+  const openCompanyModal = () => {
+    setCompanyModalOpen(true);
+  };
+
+  // Function to close the company modal
+  const closeCompanyModal = () => {
+    setCompanyModalOpen(false);
+    setNewCompanyName(""); // Clear the company name input
+  };
+
+  // Function to handle company creation
+  const handleCompanyCreation = async () => {
+    try {
+      // Make a POST request to create the company with the newCompanyName
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}company`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: newCompanyName }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      console.log("Company creation successful:", data);
+
+      // Close the company modal
+      closeCompanyModal();
+
+      // Optionally, you can update the list of companies here to include the newly created company.
+
+      // You can also perform any other necessary actions based on the response data.
+    } catch (error) {
+      console.error("Error creating company:", error);
+      // Handle errors here if needed
+    }
+  };
   
   const [formData, setFormData] = useState({
     jobTitle: "",
@@ -87,7 +131,7 @@ const PostBoxForm = ({ onSubmit }) => {
 
         
         
-        const response = await fetch("${process.env.NEXT_PUBLIC_API_URL}company"); // Replace with your API endpoint
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}company`); // Replace with your API endpoint
         if (!response.ok) {
           throw new Error("Error fetching companies");
         }
@@ -122,7 +166,7 @@ const PostBoxForm = ({ onSubmit }) => {
 
     try {
       // Make API request using the apicall proxy
-      const response = await fetch("${process.env.NEXT_PUBLIC_API_URL}job", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}job`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -159,6 +203,26 @@ const PostBoxForm = ({ onSubmit }) => {
   };
 
   return (
+
+    <div>
+      
+      <button onClick={openCompanyModal}>Create New Company</button>
+
+      {/* Company Modal */}
+      {isCompanyModalOpen && (
+        <div className="company-modal">
+          <h2>Create New Company</h2>
+          <input
+            type="text"
+            placeholder="Company Name"
+            value={newCompanyName}
+            onChange={(e) => setNewCompanyName(e.target.value)}
+          />
+          <button onClick={handleCompanyCreation}>Create</button>
+          <button onClick={closeCompanyModal}>Cancel</button>
+        </div>
+      )}
+      
     <form className="default-form" onSubmit={handleSubmit}>
       <div className="row">
 
@@ -436,6 +500,7 @@ const PostBoxForm = ({ onSubmit }) => {
         </div>
       </div>
     </form>
+    </div>
   );
 };
 

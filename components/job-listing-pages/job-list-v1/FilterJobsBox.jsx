@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useEffect, useState } from "react";
+import { useAuth } from "../../../app/authContext";
+
  
 import {
     addCategory,
@@ -26,7 +28,65 @@ import {
 const FilterJobsBox = () => {
 
 
+    const { logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
+
     const [jobs, setJobs] = useState([]);
+
+    const [isApplied, setIsApplied] = useState(false);
+  const [applyMessage, setApplyMessage] = useState(""); // Initialize state
+
+
+  const [formData, setFormData] = useState({
+    candidateId: getUserId(),
+    jobId: "",
+    coverLetter: "",
+  });
+  
+  // Handle form submission
+  const handleApplyJobAPI = async (jobId) => {
+    // e.preventDefault();
+
+    console.log("in handleApplyJobAPI");
+
+
+    const updatedFormData = {
+        candidateId: getUserId(),
+        jobId: jobId, // Assign the jobId here
+        coverLetter: "",
+      };
+
+      
+     try {
+      // Make API request to handle form submission
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}application`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify( updatedFormData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+
+      if(data.error){
+        throw new Error("Invalid Credentials");
+      }
+      // Handle the API response if needed
+      console.log("Job Applied successfully:", data);
+
+          setApplyMessage(data.message); // Set the message from the API response
+
+      setIsApplied(true); // Set state to indicate successful application
+
+    } catch (error) {
+      console.error("Error submitting form:", error);
+//      setError("Incorrect email or password. Please try again."); // Set error message for incorrect credentials
+    }
+  };
 
     useEffect(() => {
 
@@ -115,7 +175,18 @@ const FilterJobsBox = () => {
               )
             : item;
 
-    // date-posted filter
+
+            const truncateDescription = (description, wordLimit) => {
+                const words = description.split(' ');
+                if (words.length > wordLimit) {
+                  return words.slice(0, wordLimit).join(' ') + '...';
+                }
+                return description;
+              };
+
+            // date-posted filter
+
+
     const datePostedFilter = (item) =>
         datePosted !== "all" && datePosted !== ""
             ? item?.created_at
@@ -169,6 +240,7 @@ const FilterJobsBox = () => {
                             </Link>
                         </h4>
 
+
                         <ul className="job-info">
                             <li>
                                 <span className="icon flaticon-briefcase"></span>
@@ -184,6 +256,12 @@ const FilterJobsBox = () => {
                                 <span className="icon flaticon-clock-3"></span>{" "}
                                 {item.time}
                             </li> */}
+                            {/* time info */}
+                                {/* salary info */}
+                        </ul>
+                        {/* End .job-info */}
+
+                        <ul className="job-info">
                             {/* time info */}
                             <li>
                                 <span className="icon flaticon-money"></span>{" "}
@@ -214,15 +292,22 @@ const FilterJobsBox = () => {
 
                         <span className="icon flaticon-notebook"></span>
 
-                                 {item.jd}
+                        {truncateDescription(item.jd, 20)}
                             </li>
                            </ul>
 
-                        <button className="bookmark-btn">
+                        {/* <button className="bookmark-btn">
                             <span className="flaticon-bookmark"></span>
-                        </button>
+                        </button> */}
                     </div>
+                    <div className="btn-box" style={{ textAlign: 'right' }}>
+                <Link href={`/job-single-v1/${item._id}`}>
+View details                            </Link>
+      </div>
                 </div>
+
+                
+            
             </div>
             // End all jobs
         ));

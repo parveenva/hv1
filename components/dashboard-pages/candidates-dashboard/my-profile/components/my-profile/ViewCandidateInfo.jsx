@@ -6,7 +6,7 @@ import CvUploader from "../../../cv-manager/components/CvUploader";
 
 const ViewCandidateInfo =  ({ afterSave }) => {
 
-  const { userRole, isLoggedIn ,uId} = useAuth();
+  const { logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
   const [resumeFile, setResumeFile] = useState(null);
 
   const handleResumeChange = (e) => {
@@ -204,7 +204,7 @@ const ViewCandidateInfo =  ({ afterSave }) => {
     }
 
  
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/candidate/${uId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/candidate/${getUserId()}`, {
         method: "PUT", // Use PUT for editing existing data
         body: formData,
       });
@@ -239,7 +239,7 @@ const ViewCandidateInfo =  ({ afterSave }) => {
     // Create the dynamic profile summary based on candidateData
     const profileSummary = `
       Personal Details:
-      Full Name: ${candidateData.firstName} ${candidateData.lastName}
+      Full Name: ${candidateData.name} 
       Age: ${candidateData.age}
       Phone: ${candidateData.phone}
       Email: ${candidateData.email}
@@ -275,11 +275,10 @@ const ViewCandidateInfo =  ({ afterSave }) => {
   useEffect(() => {
     const fetchCandidateData = async () => {
       try {
-        console.log("uId-----:", uId);
-
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}candidate?id=${uId}`); // Replace with your API endpoint
+ 
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}candidate/${getUserId()}`); // Replace with your API endpoint
         const data = await response.json();
-        setCandidateData(data[0]);
+        setCandidateData(data);
       } catch (error) {
         console.error("Error fetching candidate data:", error);
       }
@@ -291,7 +290,7 @@ const ViewCandidateInfo =  ({ afterSave }) => {
       <div className="row">
         {/* <!-- Input --> */}
         <div className="form-category col-lg-12" style={{ marginBottom: '20px' }}>
-          <h2>Personal Details</h2>
+          <h2 style={{ marginTop: '20px' }}>Personal Details</h2>
           </div>
         
         <div className="form-group col-lg-6 col-md-12">
@@ -302,7 +301,7 @@ const ViewCandidateInfo =  ({ afterSave }) => {
             disabled
             placeholder=""
             required
-            value={`${candidateData.firstName} ${candidateData.lastName}`}
+            value={`${candidateData.name}`}
             onChange={handleInputChange}
              
           />
@@ -858,9 +857,9 @@ const ViewCandidateInfo =  ({ afterSave }) => {
 
 
         <div className="form-group col-lg-12 col-md-12">
-        <label>Resume File</label>
+        <label>Resume File : &nbsp;&nbsp;</label>
         {candidateData.filePath    && (
-          <a href={`${process.env.NEXT_PUBLIC_API_URL}/${candidateData.filePath}`} target="_blank" rel="noopener noreferrer">
+          <a href={`${process.env.NEXT_PUBLIC_API_URL}download/${candidateData.filePath}`} target="_blank" rel="noopener noreferrer">
             Download Resume
           </a>
         )}

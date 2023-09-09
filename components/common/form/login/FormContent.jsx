@@ -5,7 +5,7 @@ import { useAuth } from "../../../../app/authContext";
 import { useRouter } from "next/router";
 
 
-const FormContent = () => {
+const FormContent = ({ isPopupOpen, setIsPopupOpen, closeButtonRef }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -22,7 +22,7 @@ const FormContent = () => {
 
   const endpoint = "user/login"; // Replace with the specific API's endpoint
 
-  const { setIsLoggedIn,setUserRole ,setUserId} = useAuth();
+  const { setToken,getToken,logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
   const router = useRouter();
 
   // Handle form submission
@@ -60,28 +60,44 @@ const FormContent = () => {
       // Get the role from the decoded token
       const userRole = decodedToken.role;
 
-      setIsLoggedIn(true); // Set isLoggedIn to true on successful login
+      setIsLoggedIn(true); // Set getIsLoggedIn() to true on successful login
 
       
       setUserRole(userRole); 
 
       setUserId(decodedToken.userId); 
 
+      setToken(data.token);
       //setIsPopupOpen(false); // Close the popup after successful login
 
 // Redirect based on user's role
 if (userRole === "candidate") {
   router.push("/candidates-dashboard/my-profile"); // Redirect to the candidate dashboard
 } else if (userRole === "employer") {
-  router.push("/employers-dashboard/manage-jobs"); // Redirect to the employer dashboard
+  router.push("/admin-dash/candidates-list-v1"); // Redirect to the employer dashboard
 } else if (userRole === "admin") {
-  router.push("/admin-d/manage-jobs"); // Redirect to the employer dashboard
+  router.push("/admin-dash/candidates-list-v1"); // Redirect to the employer dashboard
 } else {
   // Handle other roles or default case
   // For example, if there are other roles, you can redirect them to their respective dashboards
   // Otherwise, you can redirect to a default dashboard or homepage
  // router.push("/-dashboard/dashboard"); // Redirect to the default dashboard
 }
+
+ closeButtonRef.current.click();
+
+ closeButtonRef.current.classList.remove("show");
+
+ closeButtonRef.current.style.display = "none"; // Hide the modal
+
+
+ const backdrop = document.querySelector(".modal-backdrop");
+    if (backdrop) {
+      backdrop.remove();
+    }
+    document.body.classList.remove("modal-open"); // Restore body scroll
+    document.body.style.overflow = "auto";
+
     } catch (error) {
       console.error("Error submitting form:", error);
       setError("Incorrect email or password. Please try again."); // Set error message for incorrect credentials
@@ -122,19 +138,19 @@ if (userRole === "candidate") {
 
         {error && <p className="error-message">{error}</p>} {/* Display error message if there is an error */}
 
-        <div className="form-group">
-          <div className="field-outer">
-            <div className="input-group checkboxes square">
+        {/* <div className="form-group"> */}
+          {/* <div className="field-outer"> */}
+            {/* <div className="input-group checkboxes square">
               <input type="checkbox" name="remember-me" id="remember" />
               <label htmlFor="remember" className="remember">
                 <span className="custom-checkbox"></span> Remember me
               </label>
-            </div>
-            <a href="#" className="pwd">
+            </div> */}
+            {/* <a href="#" className="pwd">
               Forgot password?
-            </a>
-          </div>
-        </div>
+            </a> */}
+          {/* </div>
+        </div> */}
         {/* forgot password */}
 
         <div className="form-group">

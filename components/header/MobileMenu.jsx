@@ -1,7 +1,13 @@
 import Link from "next/link";
 import MobileSidebar from "./mobile-sidebar";
+import { useAuth } from "../../app/authContext";
+
 
 const MobileMenu = () => {
+
+  const { logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
+
+
   return (
     // <!-- Main Header-->
     <header className="main-header main-header-mobile">
@@ -23,17 +29,24 @@ const MobileMenu = () => {
           </div>
           {/* End .nav-outer */}
 
+
           <div className="outer-box">
-            <div className="login-box">
+
+          {!getIsLoggedIn() ? (
+
+              <div className="login-box">
               <a
                 href="#"
                 className="call-modal"
                 data-bs-toggle="modal"
-                data-bs-target="#loginPopupModal"
+                data-bs-target="#registerModal"
               >
                 <span className="icon icon-user"></span>
               </a>
-            </div>
+          </div>
+        ) : null}
+
+
             {/* login popup end */}
 
             <a

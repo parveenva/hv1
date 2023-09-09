@@ -21,13 +21,15 @@ import { useRouter } from "next/router";
 const HeaderNavContent = () => {
   const router = useRouter();
 
-  const { isLoggedIn,userRole } = useAuth();
+  const { logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
 
   const getDashboardURL = () => {
-    if (userRole === "candidate") {
+    if (getUserRole() === "candidate") {
       return "/candidates-dashboard/my-profile";
-    } else if (userRole === "employer") {
-      return "/employers-dashboard/manage-jobs";
+    } else if (getUserRole() === "employer") {
+      return "/admin-dash/candidates-list-v1";
+    } else if (getUserRole() === "admin") {
+      return "/admin-dash/candidates-list-v1";
     } else {
       // Handle other roles or default case
       return "/"; // Set a default URL if needed
@@ -41,7 +43,7 @@ const HeaderNavContent = () => {
           {/* current dropdown */}
 
 
-  {isLoggedIn &&    (     
+  {getIsLoggedIn() &&    (     
           <li>
         <Link href={getDashboardURL()}>
 

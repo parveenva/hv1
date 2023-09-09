@@ -12,7 +12,7 @@ const Logout = () => {
   useEffect(() => {
 
     // Perform logout logic here
-    sessionStorage.removeItem("isLoggedIn"); // Remove isLoggedIn state from sessionStorage
+    sessionStorage.removeItem("getIsLoggedIn()"); // Remove getIsLoggedIn() state from sessionStorage
     // You can perform any other cleanup or logout-related actions here if needed
 
     logout();

@@ -5,13 +5,13 @@ import { useAuth} from "../../../../../app/authContext";
 
 const JobListingsTable = () => {
   const [jobs, setJobs] = useState([]);
-  const { userRole, isLoggedIn ,uId} = useAuth();
+  const { logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
 
 
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch("${process.env.NEXT_PUBLIC_API_URL}appliedjobs?id=${uId}`"); // Adjust the API endpoint
+        const response = await fetch("${process.env.NEXT_PUBLIC_API_URL}appliedjobs/${getUserId()}`"); // Adjust the API endpoint
         const data = await response.json();
         setJobs(data);
       } catch (error) {

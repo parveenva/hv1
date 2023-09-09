@@ -10,7 +10,7 @@ const EmployerConfirmation = () => {
 
   useEffect(() => {
     // Fetch the job details from the server using the apicall.js API handler
-    fetch("${process.env.NEXT_PUBLIC_API_URL}submittedJob")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}submittedJob`)
       .then((response) => response.json())
       .then((data) => {
         setSubmittedJobDetails(data);

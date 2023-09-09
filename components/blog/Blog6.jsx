@@ -1,7 +1,12 @@
 import Link from "next/link";
 import blogContent from "../../data/blogs";
+import ContactUs from "../common/form/contactus/ContactUs";
 
 const Blog6 = () => {
+
+
+  
+
   return (
     <>
       {blogContent.slice(0, 6).map((item) => (
@@ -37,7 +42,7 @@ const Blog6 = () => {
               {/* End post meta */}
 
               <h3>
-                <Link href={`/blog-details/${item.id}`}>{item.title}</Link>
+                {item.title}
               </h3>
 
               <div className="post-content">
@@ -55,9 +60,17 @@ const Blog6 = () => {
 </div>
 
    
-              <Link href={`/blog-details/${item.id}`} className="read-more">
-                Read More <i className="fa fa-angle-right"></i>
-              </Link>
+<Link href="#"              
+          className="theme-btn btn-style-one call-modal"
+          data-bs-toggle="modal"
+          data-bs-target="#contactUsModal"
+          data-bs-backdrop="static" // or data-bs-backdrop="true"
+
+       >
+Request a Callback to know more..          </Link>
+
+           <ContactUs/>
+  
             </div>
           </div>
         </div>

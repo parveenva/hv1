@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import React from 'react';
 
 
 const JobListingsTable = () => {
@@ -8,7 +9,7 @@ const JobListingsTable = () => {
 
   useEffect(() => {
 
-  const endpoint = "job"; // Replace with the specific API's endpoint
+  const endpoint = "job/admin"; // Replace with the specific API's endpoint
 
   // Fetch jobs from the generic API route with the specified endpoint
   const fetchJobs = async () => {
@@ -61,25 +62,24 @@ const JobListingsTable = () => {
             </thead>
 
             <tbody>
-              {jobs.slice(0, 4).map((item) => (
+              {jobs.slice(0, 10).map((item) => (
                 <tr key={item.id}>
                   <td>
                     {/* <!-- Job Block --> */}
                     <div className="job-block">
                       <div className="inner-box">
                         <div className="content">
-                          <span className="company-logo">
-                            <img src={item.logo} alt="logo" />
-                          </span>
-                          <h4>
-                            <Link href={`/job-single-v3/${item.id}`}>
+                        
+                          <ul className="job-info">
+                            
+                          <li>
+                            <Link href={`/job-single-v1/${item._id}`}>
                               {item.jobTitle}
                             </Link>
-                          </h4>
-                          <ul className="job-info">
+                          </li>
                             <li>
                               <span className="icon flaticon-briefcase"></span>
-                              {item.company}
+                              {item.company ? item.company.name : 'Code91'}
                             </li>
                             <li>
                               <span className="icon flaticon-map-locator"></span>
@@ -94,29 +94,39 @@ const JobListingsTable = () => {
                     <a href="#">3+ Applied</a>
                   </td>
                   <td>
-                  {item.created_at}
+                  {item.created_at ? (new Date(item.created_at)).toLocaleString('en-UK', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+   // hour: '2-digit',
+    //minute: '2-digit',
+    //hour12: true, // Use AM/PM format
+  }):""}
                             {/* <br />
                     April 25, 2011 */}
                   </td>
-                  <td className="status">Active</td>
+                  <td className="status">{item.active?"Active":"Inactive"}</td>
                   <td>
                     <div className="option-box">
                       <ul className="option-list">
-                        <li>
+                        {/* <li>
                           <button data-text="View Aplication">
                             <span className="la la-eye"></span>
                           </button>
-                        </li>
-                        <li>
-                          <button data-text="Reject Aplication">
-                            <span className="la la-pencil"></span>
-                          </button>
-                        </li>
-                        <li>
+                        </li> */}
+
+<li>
+  <a href={`/admin-dash/edit-job/${item._id}`}>
+    <button data-text="Edit">
+      <span className="la la-pencil"></span>
+     </button>
+  </a>
+</li>
+                        {/* <li>
                           <button data-text="Delete Aplication">
                             <span className="la la-trash"></span>
                           </button>
-                        </li>
+                        </li> */}
                       </ul>
                     </div>
                   </td>

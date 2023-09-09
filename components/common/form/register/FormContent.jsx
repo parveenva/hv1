@@ -7,13 +7,16 @@ const FormContent = ({ role }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    phone :"",
+    name :"",
   });
 
 
-  const [fullNameError, setFullNameError] = useState("");
+  const [nameError, setnameError] = useState("");
 
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const { setIsLoggedIn,setUserRole } = useAuth();
+  const { logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
   const router = useRouter();
   
   // Handle form input changes
@@ -30,13 +33,13 @@ const FormContent = ({ role }) => {
 
 // Validate Full Name
 if (!formData.name.trim()) {
-  setFullNameError("Full Name is required");
+  setnameError("Full Name is required");
   return;
 }
 
 const nameParts = formData.name.trim().split(" ");
 if (nameParts.length < 2) {
-  setFullNameError("Please enter your First Name and Last Name");
+  setnameError("Please enter your First Name and Last Name");
   return;
 }
 
@@ -54,7 +57,21 @@ if (nameParts.length < 2) {
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const responseBody = await response.json();
+
+
+        console.log("response.status--",response.status);
+        console.log("error.response.data.responseBody.error --",responseBody.error );
+
+        if (response.status === 409 && responseBody.error==='email' ) {
+          setErrorMessage("User with this email already exists. Please go to the login screen and log in with your email and password or create a new user with a different email.");
+       return;
+        } else if (response.status === 409 && responseBody.error==='phone') {
+          setErrorMessage("User with this phone numer already exists. Please go to the login screen and log in with your email and password or create a new user with a different phone.");
+       return;
+        } else  {
+          throw new Error("Network response was not ok");
+        }
       }
 
       const data = await response.json();
@@ -69,10 +86,9 @@ if (userId) {
   // Prepare candidate data
   const candidateData = {
     // Fill in the candidate data fields accordingly
-  firstName: nameParts[0],
-   lastName:  nameParts.slice(1).join(' '),
+   name: formData.name,
     email: formData.email,
-    //phone: '123-456-7890',
+    phone: formData.phone,
     // ... other candidate data ...
     // Use the extracted userId
     user: userId,
@@ -89,7 +105,7 @@ if (userId) {
   });
 
   if (!createCandidateResponse.ok) {
-    throw new Error('Error creating candidate');
+   // throw new Error('Error creating candidate');
   }
 
   // Candidate created successfully
@@ -135,11 +151,22 @@ if (userId) {
       // Get the role from the decoded token
       const userRole = decodedToken.role;
 
-      setIsLoggedIn(true); // Set isLoggedIn to true on successful login
+      setIsLoggedIn(true); // Set getIsLoggedIn() to true on successful login
 
       
       setUserRole(userRole); 
       //setIsPopupOpen(false); // Close the popup after successful login
+
+
+      setUserId(decodedToken.userId); 
+
+       
+      const backdrop = document.querySelector(".modal-backdrop");
+         if (backdrop) {
+           backdrop.remove();
+         }
+         document.body.classList.remove("modal-open"); // Restore body scroll
+         document.body.style.overflow = "auto";
 
 // Redirect based on user's role
 if (userRole === "candidate") {
@@ -177,7 +204,7 @@ if (userRole === "candidate") {
           value={formData.name}
           onChange={handleInputChange}
         />
-                {fullNameError && <p className="error-message">{fullNameError}</p>}
+                {nameError && <p className="error-message">{nameError}</p>}
 
       </div>
 
@@ -202,16 +229,36 @@ if (userRole === "candidate") {
           type="password"
           name="password"
           placeholder="Password"
+          required
           value={formData.password}
           onChange={handleInputChange}
         />
       </div>
       {/* password */}
 
+
       <div className="form-group">
-        <button className="theme-btn btn-style-one" type="submit">
+        <label>Phone number</label>
+        <input
+          type="text"
+          name="phone"
+          required
+          value={formData.phone}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="form-group">
+        
+        {errorMessage && (
+                  <div>
+
+        <p style={{ color: 'red' }}>{errorMessage}</p>
+        </div>
+      )}
+<button className="theme-btn btn-style-one" type="submit">
           Register
         </button>
+
       </div>
       {/* login */}
     </form>

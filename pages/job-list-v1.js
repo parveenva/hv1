@@ -5,7 +5,7 @@ import JobListV1 from "../components/job-listing-pages/job-list-v1";
 const index = () => {
   return (
     <>
-      <Seo pageTitle="Job List V1" />
+      <Seo pageTitle="Freshers Jobs" />
       <JobListV1 />
     </>
   );

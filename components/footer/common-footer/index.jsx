@@ -2,6 +2,7 @@ import CopyrightFooter from "./CopyrightFooter";
 import FooterContent from "./FooterContent";
 import Link from "next/link";
 import React from "react";
+import BottomNavigation from "./BottomNavigation"; // Adjust the import path
 
 
 const index = ({ footerStyle = "" }) => {
@@ -46,30 +47,9 @@ const index = ({ footerStyle = "" }) => {
       <CopyrightFooter />
       <br/>
       <br/><br/>
-      <div className="fixed-bottom-section">
-           <div className="col-4">
 
-          <Link href="/job-list-v1">
-            <span className="bottom-button">Jobs</span>
-          </Link>
-                </div>
+      <BottomNavigation />
 
-          <div className="col-4">
-
-          
-          <Link href="/ilist">
-            <span className="bottom-button">Internships</span>
-          </Link>
-               </div>
-
-          <div className="col-4">
-
-          
-          <Link href="/blog-list-v1">
-            <span className="bottom-button">Courses</span>
-          </Link>
-            </div>
-             </div>
 
       {/* <!--Bottom--> */}
     </footer>

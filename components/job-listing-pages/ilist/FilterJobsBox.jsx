@@ -49,6 +49,15 @@ const FilterJobsBox = () => {
     fetchJobs();
   }, []);
 
+  const truncateDescription = (description, wordLimit) => {
+    const words = description.split(' ');
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(' ') + '...';
+    }
+    return description;
+  };
+  
+    
     const { jobList, jobSort } = useSelector((state) => state.filter);
     const {
         keyword,
@@ -175,6 +184,12 @@ const FilterJobsBox = () => {
                                 {item.time}
                             </li> */}
                             {/* time info */}
+                                {/* salary info */}
+                        </ul>
+                        {/* End .job-info */}
+
+                        <ul className="job-info">
+                            {/* time info */}
                             <li>
                                 <span className="icon flaticon-money"></span>{" "}
                                 {item.salaryType === 'fixed' ? (
@@ -185,8 +200,7 @@ const FilterJobsBox = () => {
                             </li>
                             {/* salary info */}
                         </ul>
-                        {/* End .job-info */}
-
+                  
                         <ul className="job-info">
                         <span className="icon flaticon-lightbulb"></span>
                             {item?.skills?.map((val, i) => (
@@ -204,14 +218,16 @@ const FilterJobsBox = () => {
 
                         <span className="icon flaticon-notebook"></span>
 
-                                 {item.jd}
+                        {truncateDescription(item.jd, 20)}
                             </li>
                            </ul>
 
-                        <button className="bookmark-btn">
-                            <span className="flaticon-bookmark"></span>
-                        </button>
                     </div>
+
+                    <div className="btn-box" style={{ textAlign: 'right' }}>
+                <Link href={`/job-single-v1/${item._id}`}>
+View details                            </Link>
+      </div>
                 </div>
             </div>
             // End all jobs

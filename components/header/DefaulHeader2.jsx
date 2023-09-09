@@ -7,7 +7,7 @@ import { useAuth } from "../../app/authContext";
 const DefaulHeader2 = () => {
   const [navbar, setNavbar] = useState(false);
 
-  const { isLoggedIn, userRole } = useAuth();
+  const { logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
 
 
   const changeBackground = () => {
@@ -49,11 +49,11 @@ const DefaulHeader2 = () => {
 
         <div className="outer-box">
           {/* <!-- Add Listing --> */}
-          {!isLoggedIn ? (
+          {!getIsLoggedIn() ? (
         <Link href="/login" className="login-link">
          Upload your CV
         </Link>
-      ) : userRole === "candidate" ? (
+      ) : getUserRole() === "candidate" ? (
         <Link href="/candidates-dashboard/cv-manager" className="upload-cv">
           {/* Upload your CV */}
         </Link>
@@ -62,17 +62,17 @@ const DefaulHeader2 = () => {
           {/* <!-- Login/Register --> */}
           <div className="btn-box">
        
-          {!isLoggedIn ? (
+          {!getIsLoggedIn() ? (
         <Link href="#" className="theme-btn btn-style-three call-modal"
         data-bs-toggle="modal"
-        data-bs-target="#loginPopupModal"
+        data-bs-target="#registerModal"
      >
               Login / Register
         </Link>
            ) : null}
 
           
-            {/* {!isLoggedIn ? ( */}
+            {/* {!getIsLoggedIn() ? ( */}
 
 {/* <Link href="/login" className="theme-btn btn-style-one">
           {/* Post Job for Free! */}

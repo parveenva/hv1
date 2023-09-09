@@ -7,6 +7,8 @@ import CopyrightFooter from "../../CopyrightFooter";
 import WidgetContentBox from "./components/WidgetContentBox";
 import WidgetTopFilterBox from "./components/WidgetTopFilterBox";
 import MenuToggler from "../../MenuToggler";
+import withAuth from "../../../../app/withAuth";
+
 
 const index = () => {
   return (
@@ -65,4 +67,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default withAuth(index);

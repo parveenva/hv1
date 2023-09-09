@@ -27,14 +27,14 @@ const Header = () => {
           {/* <!--Nav Outer --> */}
           <div className="nav-outer">
             <div className="logo-box">
-              <div className="logo">
+              {/* <div className="logo">
                 <Link href="/" className="noSticky">
                   <img src="images/logo-2.svg" alt="logo" title="brand" />
                 </Link>
                 <Link href="/" className="isSticky">
                   <img src="images/logo.png" alt="logo" title="brand" />
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
           {/* End nav-outer */}

@@ -1,10 +1,12 @@
 import Register from "../register/Register";
 import FormContent from "./FormContent";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const LoginPopup = () => {
 
   const [isPopupOpen, setIsPopupOpen] = useState(true);
+
+  const closeButtonRef = useRef(null); // Create a ref for the close button
 
 
   return (
@@ -26,7 +28,7 @@ const LoginPopup = () => {
               <div id="login-modal">
                 {/* <!-- Login Form --> */}
                 <div className="login-form default-form">
-                <FormContent isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} />
+                <FormContent    closeButtonRef={closeButtonRef}  isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} />
                 </div>
                 {/* <!--End Login Form --> */}
               </div>
@@ -45,6 +47,7 @@ const LoginPopup = () => {
               type="button"
               className="closed-modal"
               data-bs-dismiss="modal"
+              ref={closeButtonRef}
             ></button>
             {/* End close modal btn */}
 

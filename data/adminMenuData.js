@@ -28,13 +28,13 @@ module.exports = [
     routePath: "/admin-dash/candidates-list-v1",
     active: "",
   },
-  {
-    id: 6,
-    name: "Shortlisted Resumes",
-    icon: "la-bookmark-o",
-    routePath: "/admin-dash/shortlisted-resumes",
-    active: "",
-  },
+  // {
+  //   id: 6,
+  //   name: "Shortlisted Resumes",
+  //   icon: "la-bookmark-o",
+  //   routePath: "/admin-dash/shortlisted-resumes",
+  //   active: "",
+  // },
   // {
   //   id: 7,
   //   name: "Packages",
@@ -67,7 +67,7 @@ module.exports = [
     id: 11,
     name: "Logout",
     icon: "la-sign-out",
-    routePath: "/logout",
+    routePath: "/log-out",
     active: "",
   },
   // {
