@@ -9,6 +9,7 @@ const FormContent = ({ role }) => {
     password: "",
     phone :"",
     name :"",
+    fromRegister:true,
   });
 
 
@@ -92,6 +93,7 @@ if (userId) {
     // ... other candidate data ...
     // Use the extracted userId
     user: userId,
+    fromRegister :true,
   };
 
   // Make the API call to create a new candidate

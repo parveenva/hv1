@@ -341,7 +341,7 @@ const FormInfoBox =  ({ afterSave }) => {
             required       
                value={candidateData.phone}
             onChange={handleInputChange}
-           
+           disabled
           />
         </div>
 
@@ -355,6 +355,7 @@ const FormInfoBox =  ({ afterSave }) => {
             value={candidateData.email}
             onChange={handleInputChange}
             required
+            disabled
           />
         </div>
 

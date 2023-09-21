@@ -603,3 +603,68 @@
   border: 2px solid #ccc; /* Add a border */
   padding: 20px; /* Add padding */
 }
+
+
+/* Add this CSS to your component's CSS file or a global CSS file */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination-list {
+  list-style: none;
+  display: flex;
+  gap: 8px; /* Adjust the gap as needed */
+}
+
+.pagination-list li {
+  margin: 0;
+}
+
+.pagination-list button {
+  padding: 8px 12px;
+  background-color: #007bff; /* Change to your desired button background color */
+  color: #fff; /* Change to your desired button text color */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination-list button.active {
+  background-color: #333; /* Change to your desired active button background color */
+}
+
+  
+   /* CSS styles for the grid container */
+  .call-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust column width as needed */
+    gap: 10px; /* Adjust the gap between items as needed */
+  }
+
+  /* Add more styles as needed */
+ 
+/* CSS styles for the subsections */
+  .call-summary-subsection {
+    background-color: #f4f4f4;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+  }
+
+  .call-summary-subsection h6 {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+
+  .call-summary-sub-subsection {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .call-summary-sub-subsection span {
+    font-weight: bold;
+  }

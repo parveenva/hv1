@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from "next/router";
 import Select from "react-select";
 import Modal from 'react-modal'; // You'll need a modal library, like react-modal
+import { useAuth } from "../../../../../app/authContext";
 
 
 const PostBoxForm = ({ candidateId }) => {
   // State to store form data
   const router = useRouter();
+
+  const { setToken,getToken,logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
+
 
   const [isLogCallModalOpen, setIsLogCallModalOpen] = useState(false);
 
@@ -33,6 +37,8 @@ const PostBoxForm = ({ candidateId }) => {
   const handleLogCallSubmit = async (e) => {
     e.preventDefault();
   
+    const accessToken = getToken();
+
     const newStatus = logCallFormData.newLeadStatus;
   
 
@@ -40,6 +46,13 @@ const PostBoxForm = ({ candidateId }) => {
 
     const parts1 = currentPath.split('/');
 const id = parts1[parts1.length - 1];
+
+
+const currentDate = new Date(); // Get the current date and time
+
+// Format the current date as a string in the desired format, e.g., "yyyy-MM-dd"
+const formattedDate = currentDate.toISOString().split('T')[0];
+
 
     // Step 1: Make a PUT request to update the candidate's status
       try {
@@ -53,6 +66,7 @@ const id = parts1[parts1.length - 1];
             body: JSON.stringify({
               leadStatus: newStatus,
               nextFollowUpDate: logCallFormData.followUpDate, // Include the nextFollowUpDate in the request body
+              lastContactedDate:  formattedDate, // Add lastContactedDate conditionally
 
             }),
           }
@@ -63,11 +77,6 @@ const id = parts1[parts1.length - 1];
       }
   
 
-      const currentDate = new Date(); // Get the current date and time
-
-// Format the current date as a string in the desired format, e.g., "yyyy-MM-dd"
-const formattedDate = currentDate.toISOString().split('T')[0];
-
       // Step 2: Make a separate API call to log the call
       const logCallResponse = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}candidate/logCall`, // Replace with your actual logCall endpoint
@@ -75,6 +84,9 @@ const formattedDate = currentDate.toISOString().split('T')[0];
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            'Authorization': `Bearer ${accessToken}`, // Include the authorization token
+
+            
           },
           body: JSON.stringify({
             candidateId: id, // Replace with the actual candidate ID
@@ -106,6 +118,10 @@ setFormData((prevData) => ({
   leadStatusName: newStatusName, // Update the lead status name
   nextFollowUpDate: logCallFormData.followUpDate, // Update the follow-up date
 }));
+
+
+fetchLeadHistory(); // Fetch lead history when the component mounts
+window.scrollTo({ top: 0, behavior: 'smooth' });
       
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -114,12 +130,13 @@ setFormData((prevData) => ({
   };
   
 
-  const mandatoryFields = ["name","email"];
+  const mandatoryFields = ["name","phone"];
   const [formErrors, setFormErrors] = useState({});
 
   const [editMode, setEditMode] = useState(false); // Default to view mode
 
   const [leadOwners, setLeadOwners] = useState([]);
+ 
   const [leadStatuses, setLeadStatus] = useState([]);
   const [leadSources, setLeadSources] = useState([]);
 
@@ -215,6 +232,8 @@ setFormData((prevData) => ({
     leadStatusName: '',
 
     leadOwner: '',
+    counsellor: '',
+    counsellorName :'',
     leadOwnerName:'',
     lastContactedDate: '',
     nextFollowUpDate: '',
@@ -290,6 +309,9 @@ setFormData((prevData) => ({
     }
   };
 
+  const isAdmin = getUserRole() === 'admin';
+
+  
 // Function to get tomorrow's date in the format "YYYY-MM-DD"
 function getTomorrowDate() {
   const today = new Date();
@@ -303,7 +325,35 @@ function getTomorrowDate() {
   return `${year}-${month}-${day}`;
 }
 
-  
+
+
+const fetchJobData = async () => {
+
+  try {
+
+    
+    const currentPath = window.location.pathname;
+
+    console.log("currentPath----------",currentPath);
+   
+    
+// Extract the last part of the path as the dynamic parameter
+const parts1 = currentPath.split('/');
+const id = parts1[parts1.length - 1];
+
+console.log("id----------",id);
+
+    const response =  await fetch(`${process.env.NEXT_PUBLIC_API_URL}candidate/byId/${id}`);
+   
+    const data =  await response.json();
+    console.log("data----------",data);
+
+    setFormData(data);
+
+  } catch (error) {
+    console.error("Error fetching job data:", error);
+  }
+}
   const populateLeadSources = async () => {
     try {
       // Make an API request to fetch the list of lead owners
@@ -338,32 +388,6 @@ function getTomorrowDate() {
     populateLeadStatus();
     populateLeadSources();
 
-      const currentPath = window.location.pathname;
-
-      console.log("currentPath----------",currentPath);
-     
-      
-  // Extract the last part of the path as the dynamic parameter
-  const parts1 = currentPath.split('/');
-  const id = parts1[parts1.length - 1];
-
-  console.log("id----------",id);
-
-  const fetchJobData = async () => {
-
-    try {
-
-      const response =  await fetch(`${process.env.NEXT_PUBLIC_API_URL}candidate/byId/${id}`);
-     
-      const data =  await response.json();
-      console.log("data----------",data);
-
-      setFormData(data);
-
-    } catch (error) {
-      console.error("Error fetching job data:", error);
-    }
-  }
   fetchJobData();
 
   console.log("before calling");
@@ -379,6 +403,9 @@ function getTomorrowDate() {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+
+
 
     console.log("in handleSubmit");
 
@@ -439,9 +466,13 @@ function getTomorrowDate() {
       console.log("Job submission successful:", data);
 
  
-      router.push(`/admin-dash/edit-candidate/${id}`); // Redirect to the employer confirmation page
+      //router.push(`/admin-dash/edit-candidate/${id}`); // Redirect to the employer confirmation page
 
       handleEditModeToggle();
+
+      fetchJobData();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
       // Call the onSubmit function passed as a prop to handle any additional actions after successful form submission
       if (typeof onSubmit === "function") {
         onSubmit(data); // You can pass any data or perform any actions here based on the API response
@@ -472,6 +503,57 @@ function getTomorrowDate() {
         Log a Call
       </button>
 
+
+      {isAdmin && (
+        // Render the leadCategory field for admin only
+<div>
+<div className="row mb-3">
+          <div className="col-md-3">
+            <label className="form-label">
+              Lead Category
+            </label>
+          </div>
+          <div className="col-md-3">
+            {/* Render the input field for leadCategory here */}
+
+            <span className="fw-bold fs-5">{formData.leadCategory}</span>
+
+          </div>
+        </div>
+
+
+<div className="row mb-3">
+<div className="col-md-3">
+  <label className="form-label">
+    Company
+  </label>
+</div>
+<div className="col-md-3">
+  {/* Render the input field for leadCategory here */}
+
+  <span className="fw-bold fs-5">{formData.company}</span>
+
+</div>
+<div className="col-md-3">
+  <label className="form-label">
+    Job opening
+  </label>
+</div>
+<div className="col-md-3">
+  {/* Render the input field for leadCategory here */}
+
+  <span className="fw-bold fs-5">{formData.jobOpening}</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+      )}
+      
       <form onSubmit={handleSubmit}>
         
         <h2>Primary Info</h2>
@@ -507,44 +589,8 @@ function getTomorrowDate() {
   <span className="fw-bold fs-5">{formData.name}</span>
 )}
             </div>
-      <div className="col-md-3">
-                <label  className="form-label form-label-sm text-muted">Phone</label></div>
-                         <div className="col-md-3">
-  {editMode ? ( 
 
 
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                className="form-control"
-              />
-              ) : ( 
-                <span className="fw-bold fs-5">{formData.phone}</span>
-              )}
-            </div>
-            </div>
-            <div className="row mb-3">
-      <div className="col-md-3">
-                <label  className="form-label form-label-sm text-muted">Current City</label></div>
-                         <div className="col-md-3">
-  {editMode ? ( 
-
-
-              <input
-                type="text"
-                name="currentCity"
-                value={formData.currentCity}
-                onChange={handleInputChange}
-                className="form-control"
-              />
-              ) : ( 
-                <span className="fw-bold fs-5">{formData.currentCity}</span>
-              )}
-            </div>
-         
-         
 
            
             <div className="col-md-3">
@@ -572,6 +618,51 @@ function getTomorrowDate() {
                <span className="fw-bold fs-5">{formData.leadStatusName}</span>
               )}
             </div>
+
+
+            </div>
+            <div className="row mb-3">
+
+
+
+            <div className="col-md-3">
+                <label  className="form-label form-label-sm text-muted">Phone</label></div>
+                         <div className="col-md-3">
+  {editMode ? ( 
+
+
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                className="form-control"
+              />
+              ) : ( 
+                <span className="fw-bold fs-5">{formData.phone}</span>
+              )}
+            </div>
+
+      <div className="col-md-3">
+                <label  className="form-label form-label-sm text-muted">Current City</label></div>
+                         <div className="col-md-3">
+  {editMode ? ( 
+
+
+              <input
+                type="text"
+                name="currentCity"
+                value={formData.currentCity}
+                onChange={handleInputChange}
+                className="form-control"
+              />
+              ) : ( 
+                <span className="fw-bold fs-5">{formData.currentCity}</span>
+              )}
+            </div>
+         
+         
+
             </div>
 
             {/* Add more fields for the second column here */}
@@ -580,18 +671,56 @@ function getTomorrowDate() {
 
 
             <div className="row mb-3">
-      <div className="col-md-3">
-                <label  className="form-label form-label-sm text-muted">Creation Date</label></div>
-                         <div className="col-md-3">
-  {editMode ? ( 
 
-<br/>
-              ) : ( 
-<span className="fw-bold fs-5">
-  {  formData.creationDate ?  `${String(new Date(formData.creationDate).getDate()).padStart(2, '0')}/${String(new Date(formData.creationDate).getMonth() + 1).padStart(2, '0')}/${new Date(formData.creationDate).getFullYear()}` : ''}
-</span>
-              )}
-            </div>
+
+                    
+          <div className="col-md-3">
+  <label className="form-label form-label-sm text-muted">Lead Owner</label>
+</div>
+<div className="col-md-3">
+  {editMode ? (
+    <select
+      name="leadOwner"
+      value={formData.leadOwner}
+      onChange={handleInputChange}
+      className="form-select"
+    >
+      <option value="">Select Lead Owner</option>
+      {leadOwners.map((owner) => (
+        <option key={owner._id} value={owner._id} selected={owner.name === formData.leadOwnerName}>
+        {owner.name}
+        </option>
+      ))}
+    </select>
+  ) : (
+    <span className="fw-bold fs-5">{formData.leadOwnerName}</span>
+  )}
+</div>
+
+
+<div className="col-md-3">
+  <label className="form-label form-label-sm text-muted">Counsellor</label>
+</div>
+<div className="col-md-3">
+  {editMode ? (
+    <select
+      name="counsellor"
+      value={formData.counsellor}
+      onChange={handleInputChange}
+      className="form-select"
+    >
+      <option value="">Select Counsellor</option>
+      {leadOwners.map((owner) => (
+        <option key={owner._id} value={owner._id} >
+        {owner.name}
+        </option>
+      ))}
+    </select>
+  ) : (
+    <span className="fw-bold fs-5">{formData.counsellorName}</span>
+  )}
+</div>
+
             
             </div>
             <div className="row mb-3">
@@ -636,7 +765,74 @@ function getTomorrowDate() {
             </div>
             </div>
          
+          
+            <div className="row mb-3">
+      <div className="col-md-3">
+                <label  className="form-label form-label-sm text-muted">Lead Source</label></div>
+                         <div className="col-md-3">
+                         {editMode ? (
+    <select
+      name="leadSource"
+      value={formData.leadSource}
+      onChange={handleInputChange}
+      className="form-select"
+    >
+      <option value="">Select Lead Source</option>
+      {leadSources.map((source) => (
+        <option key={source.id} value={source.id} selected={source.name === formData.leadSourceName}>
+          {source.name}
+        </option>
+      ))}
+    </select>
+  ) : (
+                <span className="fw-bold fs-5">{formData.leadSourceName}</span>
+              )}
+ 
+ 
+ 
+            </div>
 
+            <div className="col-md-3">
+                <label  className="form-label form-label-sm text-muted">Email</label></div>
+                         <div className="col-md-3">
+  {editMode ? ( 
+
+
+              <input
+                type="tel"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="form-control"
+              />
+              ) : ( 
+                <span className="fw-bold fs-5">{formData.email}</span>
+              )}
+            </div>
+
+          {/* Second Column */}
+          
+           
+           
+      
+            {/* Add more fields for the second column here */}
+          </div>
+ 
+          <div className="row mb-3">
+
+          <div className="col-md-3">
+                <label  className="form-label form-label-sm text-muted">Creation Date</label></div>
+                         <div className="col-md-3">
+  {editMode ? ( 
+
+<br/>
+              ) : ( 
+<span className="fw-bold fs-5">
+  {  formData.creationDate ?  `${String(new Date(formData.creationDate).getDate()).padStart(2, '0')}/${String(new Date(formData.creationDate).getMonth() + 1).padStart(2, '0')}/${new Date(formData.creationDate).getFullYear()}` : ''}
+</span>
+              )}
+            </div>
+            </div>
 
 
 {/* Lead History */}
@@ -679,64 +875,6 @@ function getTomorrowDate() {
 
 
         
-        <h2>Lead Info</h2>
-
-          {/* First Column */}
-          
-           
-            <div className="row mb-3">
-      <div className="col-md-3">
-                <label  className="form-label form-label-sm text-muted">Lead Source</label></div>
-                         <div className="col-md-3">
-                         {editMode ? (
-    <select
-      name="leadSource"
-      value={formData.leadSource}
-      onChange={handleInputChange}
-      className="form-select"
-    >
-      <option value="">Select Lead Source</option>
-      {leadSources.map((source) => (
-        <option key={source.id} value={source.id} selected={source.name === formData.leadSourceName}>
-          {source.name}
-        </option>
-      ))}
-    </select>
-  ) : (
-                <span className="fw-bold fs-5">{formData.leadSourceName}</span>
-              )}
-            </div>
-
- 
-          {/* Second Column */}
-          
-           
-           
-            
-          <div className="col-md-3">
-  <label className="form-label form-label-sm text-muted">Lead Owner</label>
-</div>
-<div className="col-md-3">
-  {editMode ? (
-    <select
-      name="leadOwner"
-      value={formData.leadOwner}
-      onChange={handleInputChange}
-      className="form-select"
-    >
-      <option value="">Select Lead Owner</option>
-      {leadOwners.map((owner) => (
-        <option key={owner._id} value={owner._id} selected={owner.name === formData.leadOwnerName}>
-        {owner.name}
-        </option>
-      ))}
-    </select>
-  ) : (
-    <span className="fw-bold fs-5">{formData.leadOwnerName}</span>
-  )}
-</div>
-            {/* Add more fields for the second column here */}
-          </div>
  
 
           <h2>Other Info</h2>
@@ -1008,6 +1146,8 @@ function getTomorrowDate() {
       <Modal   className="custom-modal"  isOpen={isLogCallModalOpen} onRequestClose={() => setIsLogCallModalOpen(false)}>
         <h2>Log a Call</h2>
         <form onSubmit={handleLogCallSubmit}>
+        <div className="row mb-6">
+
           <div className="mb-3">
             <label>Current Status&nbsp;&nbsp; :&nbsp;&nbsp;</label>
             <span className="fw-bold">{formData.leadStatusName}</span>
@@ -1015,6 +1155,8 @@ function getTomorrowDate() {
      <div className="mb-3">
             <select
               name="newLeadStatus"
+              className="form-control" 
+
               value={logCallFormData.newLeadStatus}
               onChange={handleLogCallInputChange}
             >
@@ -1034,23 +1176,40 @@ function getTomorrowDate() {
               onChange={handleLogCallInputChange}
               rows="4"
               placeholder='comments'
+              className="form-control" 
+
             ></textarea>
           </div>
-          <div className="mb-3">
+          
+          <div className="col-md-3">
+          
             <label>Follow-Up Date<br/></label> <br/>
+            </div>
+            <div className="col-md-3">
+
             <input
               type="date"
               name="followUpDate"
               value={logCallFormData.followUpDate}
               onChange={handleLogCallInputChange}
+                  className="form-control" 
+
             />
           </div>
+          <div className="col-md-3">
+
           <button type="submit" className="btn btn-primary">
             Log Call
           </button>
+</div>
+          <div className="col-md-3">
+
           <button type="button" className="btn btn-secondary" onClick={() => setIsLogCallModalOpen(false)}>
         Cancel
       </button>
+      </div>
+      </div>
+
         </form>
       </Modal>
     </div>

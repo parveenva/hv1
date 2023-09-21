@@ -12,6 +12,8 @@ const PostBoxForm = () => {
   const [counts, setCounts] = useState({ newLead: 0, dup: 0 ,inValidData:0}); // Initialize counts state
   const [showCounts, setShowCounts] = useState(false); // Initialize flag for showing counts
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [leadOwners, setLeadOwners] = useState([]);
   const [leadStatuses, setLeadStatus] = useState([]);
   const [leadSources, setLeadSources] = useState([]);
@@ -62,6 +64,7 @@ const PostBoxForm = () => {
     leadSourceName: '',
     leadStatus: '',
     leadStatusName: '',
+    leadCategory: 'Candidate',
 
     leadOwner: '',
     leadOwnerName:'',
@@ -154,6 +157,9 @@ const PostBoxForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
+
     // Implement form validation here
 
     try {
@@ -182,9 +188,15 @@ const PostBoxForm = () => {
 
       setShowCounts(true);
 
+      setIsLoading(false);
+
+
     } catch (error) {
       console.error("Error submitting form:", error);
       // Handle errors here if needed
+
+      setIsLoading(false);
+
     }
   };
 
@@ -202,10 +214,12 @@ useEffect(() => {
     <div className="container">
       <h2>Parse sheets</h2>
       {showCounts && (
-        <div>
-          New Leads: {counts.newLead}, Duplicates: {counts.dup} , Invalids: {counts.inValidData} 
-        </div>
-      )}
+      <div>
+      <span style={{ color: 'green' }}>New Leads: {counts.newLead},</span>
+      <span style={{ color: 'red' }}> Duplicates: {counts.dup},</span>
+      <span style={{ color: 'blue' }}> Invalids: {counts.inValidData}</span>
+    </div>
+    )}
 
       <form onSubmit={handleSubmit}>
         {/* Add form fields for adding a candidate here */}
@@ -216,12 +230,41 @@ useEffect(() => {
           <input
             type="text"
             name="url"
+            required
             value={formData.url}
             onChange={handleInputChange}
             className="form-control" 
           />
         </div>
  \       </div>
+
+
+ {getUserRole() === 'admin' && (
+ <div className="row mb-12">
+ <div className="col-md-3">
+      <label>Lead Category
+      <span className="text-danger">*</span> {/* Red star for mandatory field */}
+
+
+      </label>
+</div>
+      <div className="col-md-3">
+
+      <select
+        name="leadCategory"
+        required
+        className="form-select"
+        value={formData.leadCategory}
+        onChange={handleInputChange}
+      >
+        <option value="">Select Lead Category</option>
+        <option value='HR'>HR</option>
+        <option value='Candidate'>Candidate</option>
+                {/* Add more options as needed */}
+      </select>
+    </div>
+  </div>
+)}
 
  <div className="row mb-12">
        
@@ -302,8 +345,10 @@ className="form-select"
 </div>
 </div>
 
-        <button type="submit" className="btn btn-primary">
-          Parse
+        <button type="submit" className="btn btn-primary"
+          disabled={isLoading} // Disable the button when loading
+          >
+  {isLoading ? "Parsing...Wait.." : "Parse"}
         </button>
       </form>
     </div>

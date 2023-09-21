@@ -28,6 +28,30 @@ module.exports = [
     routePath: "/admin-dash/candidates-list-v1",
     active: "",
   },
+  {
+    id: 6,
+    name: "All Calls",
+    icon: "la-file-invoice",
+    routePath: "/admin-dash/all-calls",
+    active: "",
+  },
+  
+  {
+    id: 7,
+    name: "Calls Dashboard",
+    icon: "la-file-invoice",
+    routePath: "/admin-dash/calls-dashboard",
+    active: "",
+  },
+
+  {
+    id: 8,
+    name: "Questiosn bank",
+    icon: "la-file-invoice",
+    routePath: "/admin-assessmodule/all-questions",
+    active: "",
+  },
+  
   // {
   //   id: 6,
   //   name: "Shortlisted Resumes",

@@ -102,6 +102,19 @@ const HeaderNavContent = () => {
                
                 </li>
 
+                {getUserRole() === "admin" && (
+  <li>
+    <Link href="/tutorials/home">
+      <span>
+        <a>Tutorials</a>
+      </span>
+    </Link>
+  </li>
+)}
+
+
+      
+
             {/* <li>
             <span>Placements</span>
             </li>
