@@ -2,7 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import Button from "./Button";
-import form from '../../images/form.webp'
+import form from '../../images/logo1.png'
 import Image from "next/image";
 
 const HomeForm = () => {
