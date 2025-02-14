@@ -8,6 +8,8 @@
   import "react-toastify/dist/ReactToastify.css";
   import { ToastContainer } from "react-toastify";
   import { AuthProvider } from "../app/authContext";
+  import '../styles/globals.css';
+
 
   if (typeof window !== "undefined") {
     require("bootstrap/dist/js/bootstrap");

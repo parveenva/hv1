@@ -27,9 +27,9 @@ const HeaderNavContent = () => {
     if (getUserRole() === "candidate") {
       return "/candidates-dashboard/my-profile";
     } else if (getUserRole() === "employer") {
-      return "/admin-dash/candidates-list-v1";
+      return "/admin-dash/all-applications";
     } else if (getUserRole() === "admin") {
-      return "/admin-dash/candidates-list-v1";
+      return "/admin-dash/all-applications";
     } else {
       // Handle other roles or default case
       return "/"; // Set a default URL if needed
@@ -43,7 +43,7 @@ const HeaderNavContent = () => {
           {/* current dropdown */}
 
 
-  {getIsLoggedIn() &&    (     
+          {getIsLoggedIn() &&    (     
           <li>
         <Link href={getDashboardURL()}>
 
@@ -57,6 +57,7 @@ const HeaderNavContent = () => {
 
   
 
+
           <li
             // className={`${
             //   isActiveParent(homeItems, router.asPath) ? "current" : ""
@@ -64,7 +65,34 @@ const HeaderNavContent = () => {
           >
 
             
-        <Link href="/job-list-v1">
+        <Link href="/home">
+
+
+<span>             <a>Home</a>
+</span>
+    </Link>
+           
+           </li>
+
+           <li>
+
+            <Link href="/courses">
+    
+            <span><a>Courses</a>
+    </span>
+        </Link>
+               
+                </li>
+
+
+          <li
+            // className={`${
+            //   isActiveParent(homeItems, router.asPath) ? "current" : ""
+            // } dropdown`}
+          >
+
+            
+        <Link href="/jobs">
 
 
 <span>             <a>Jobs</a>
@@ -82,7 +110,7 @@ const HeaderNavContent = () => {
           >
 
             
-        <Link href="/ilist">
+        <Link href="/internships">
 
 
 <span>             <a>Internships</a>
@@ -92,25 +120,24 @@ const HeaderNavContent = () => {
            </li>
           
 
-           <li>
-            
-            <Link href="/blog-list-v1">
-    
-            <span><a>Courses</a>
-    </span>
-        </Link>
-               
-                </li>
-
-                {getUserRole() === "admin" && (
-  <li>
+       
+   <li>
     <Link href="/tutorials/home">
       <span>
         <a>Tutorials</a>
       </span>
     </Link>
   </li>
-)}
+
+
+       
+   <li>
+    <Link href="/contact">
+      <span>
+        <a>Contact Us</a>
+      </span>
+    </Link>
+  </li>
 
 
       

@@ -15,7 +15,7 @@ export default function Document() {
         />
         <meta
           name="description"
-          content="Freshers jobs | Internships"
+          content=""
         />
         <meta name="ibthemes" content="ATFN" />
 

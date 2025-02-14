@@ -32,51 +32,51 @@ const BottomNavigation = () => {
 
   return (
     <div className="fixed-bottom-section">
-      <div style={tabStyle} onClick={() => handleNavigation("/job-list-v1")}>
+      <div style={tabStyle} onClick={() => handleNavigation("/jobs")}>
         <span
           className={`flaticon-briefcase`}
           style={{
-            ...(isSelected("/job-list-v1") ? selectedStyle : notSelectedStyle),
+            ...(isSelected("/jobs") ? selectedStyle : notSelectedStyle),
           }}
         ></span>
         <span
           style={{
             ...{ fontSize: "14px", fontWeight: "bold", marginTop: "2px" },
-            ...(isSelected("/job-list-v1") ? selectedStyle : notSelectedStyle),
+            ...(isSelected("/jobs") ? selectedStyle : notSelectedStyle),
           }}
         >
           Jobs
         </span>
       </div>
 
-      <div style={tabStyle} onClick={() => handleNavigation("/ilist")}>
+      <div style={tabStyle} onClick={() => handleNavigation("/internships")}>
         <span
           className={`flaticon-certificate`}
           style={{
-            ...(isSelected("/ilist") ? selectedStyle : notSelectedStyle),
+            ...(isSelected("/internships") ? selectedStyle : notSelectedStyle),
           }}
         ></span>
         <span
           style={{
             ...{ fontSize: "14px", fontWeight: "bold", marginTop: "2px" },
-            ...(isSelected("/ilist") ? selectedStyle : notSelectedStyle),
+            ...(isSelected("/internships") ? selectedStyle : notSelectedStyle),
           }}
         >
           Internships
         </span>
       </div>
 
-      <div style={tabStyle} onClick={() => handleNavigation("/blog-list-v1")}>
+      <div style={tabStyle} onClick={() => handleNavigation("/courses")}>
         <span
           className={`flaticon-web-programming`}
           style={{
-            ...(isSelected("/blog-list-v1") ? selectedStyle : notSelectedStyle),
+            ...(isSelected("/courses") ? selectedStyle : notSelectedStyle),
           }}
         ></span>
         <span
           style={{
             ...{ fontSize: "14px", fontWeight: "bold", marginTop: "2px" },
-            ...(isSelected("/blog-list-v1") ? selectedStyle : notSelectedStyle),
+            ...(isSelected("/courses") ? selectedStyle : notSelectedStyle),
           }}
         >
           Courses

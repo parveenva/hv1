@@ -1,16 +1,14 @@
 import dynamic from "next/dynamic";
 import Seo from "../components/common/Seo";
-import Home1 from "../components/home-1";
-import JobList1 from "../components/job-listing-pages/job-list-v1";
-
+import LogIn from "../components/pages-menu/login";
 
 const index = () => {
-    return (
-        <>
-            <Seo pageTitle="Jobs for Freshers in India" />
-            <JobList1 />
-        </>
-    );
+  return (
+    <>
+      <Seo pageTitle="Login" />
+      <LogIn />
+    </>
+  );
 };
 
 export default dynamic(() => Promise.resolve(index), { ssr: false });

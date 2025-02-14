@@ -20,13 +20,13 @@ module.exports = [
     routePath: "/employers-dashboard/post-jobs",
     active: "",
   },
-  {
-    id: 4,
-    name: "Manage Jobs",
-    icon: "la-briefcase",
-    routePath: "/employers-dashboard/manage-jobs",
-    active: "",
-  },
+  // {
+  //   id: 4,
+  //   name: "Manage Jobs",
+  //   icon: "la-briefcase",
+  //   routePath: "/employers-dashboard/manage-jobs",
+  //   active: "",
+  // },
   {
     id: 5,
     name: "All Applicants",
@@ -62,13 +62,13 @@ module.exports = [
   //   routePath: "/employers-dashboard/resume-alerts",
   //   active: "",
   // },
-  {
-    id: 10,
-    name: "Change Password",
-    icon: "la-lock",
-    routePath: "/employers-dashboard/change-password",
-    active: "",
-  },
+  // {
+  //   id: 10,
+  //   name: "Change Password",
+  //   icon: "la-lock",
+  //   routePath: "/employers-dashboard/change-password",
+  //   active: "",
+  // },
   {
     id: 11,
     name: "Logout",

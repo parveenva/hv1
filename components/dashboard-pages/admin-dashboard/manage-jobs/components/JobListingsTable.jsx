@@ -5,18 +5,70 @@ import React from 'react';
 
 const JobListingsTable = () => {
 
+  const [currentPage, setCurrentPage] = useState(1);
+const [totalPages, setTotalPages] = useState(5);
+const [perPage] = useState(50);
+const [totalCalls, setTotalCalls] = useState();
+
+
+const changePage = (page) => {
+  setCurrentPage(page);
+};
+
+const nextPage = () => {
+  if (currentPage < totalPages) {
+    changePage(currentPage + 1);
+  }
+};
+
+const prevPage = () => {
+  if (currentPage > 1) {
+    changePage(currentPage - 1);
+  }
+};
+
+// const handleFilterChange = (e) => {
+//   const { name, value } = e.target;
+//   setFilters({
+//     ...filters,
+//     [name]: value,
+//   });
+// };
+
+const endpoint = "job/admin"; // Replace with the specific API's endpoint
+
+
+const fetchTotalCalls = async () => {
+  try {
+    // const queryString = new URLSearchParams(filters).toString();
+    // let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}candidate/total-calls?${queryString}`;
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${(endpoint)}/total`);
+
+
+    const data = await response.json();
+
+   
+    setTotalCalls(data.total);
+    setTotalPages(Math.ceil(data.total / 50));
+  } catch (error) {
+    console.error("Error fetching total candidates:", error);
+  }
+};
+
+
+
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
 
-  const endpoint = "job/admin"; // Replace with the specific API's endpoint
 
   // Fetch jobs from the generic API route with the specified endpoint
   const fetchJobs = async () => {
     try {
       // Call the generic API route and provide the desired endpoint as a query parameter
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${(endpoint)}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${(endpoint)}?page=${currentPage}`);
 
        const data = await response.json();
        
@@ -26,13 +78,36 @@ const JobListingsTable = () => {
     }
   };
   fetchJobs();
-}, []);
+  fetchTotalCalls();
+
+}, [currentPage]);
 
 
   return (
     <div className="tabs-box">
       <div className="widget-title">
-        <h4>My Job Listings</h4>
+        <h4> 
+                      
+          {/* <Link className="applied" href="post-jobs">
+            Post Job
+          </Link> */}
+          </h4>
+
+          <div>
+  <button onClick={prevPage} disabled={currentPage === 1}>
+    Previous
+  </button>
+  &nbsp;
+  <button onClick={nextPage} disabled={currentPage === totalPages}>
+    Next
+  </button>
+  &nbsp;
+  <strong>
+    <strong>
+      {(currentPage - 1) * 50 + 1} - {Math.min(currentPage * 50, totalCalls)} of {totalCalls} jobs
+    </strong>
+  </strong>
+</div>
 
         <div className="chosen-outer">
           {/* <!--Tabs Box--> */}
@@ -55,43 +130,28 @@ const JobListingsTable = () => {
               <tr>
                 <th>Title</th>
                 <th>Applications</th>
-                <th>Created & Expired</th>
+                <th>Created</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
 
             <tbody>
-              {jobs.slice(0, 10).map((item) => (
+              {jobs.slice(0, 50).map((item) => (
                 <tr key={item.id}>
                   <td>
                     {/* <!-- Job Block --> */}
-                    <div className="job-block">
-                      <div className="inner-box">
-                        <div className="content">
-                        
-                          <ul className="job-info">
-                            
-                          <li>
-                            <Link href={`/job-single-v1/${item._id}`}>
+                            {/* <Link href={`/job-single-v1/${item._id}`}> */}
                               {item.jobTitle}
-                            </Link>
-                          </li>
-                            <li>
-                              <span className="icon flaticon-briefcase"></span>
-                              {item.company ? item.company.name : 'Code91'}
-                            </li>
-                            <li>
-                              <span className="icon flaticon-map-locator"></span>
-                              {item.location}
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
+                            {/* </Link> */}
+                            <br/>
+                            {item.company ? item.company.name : ''}
+                            <br/>
+                            {item.city}
+
+                     </td>
                   <td className="applied">
-                    <a href="#">3+ Applied</a>
+                    <a href="#">   {item.applicantCount}</a>
                   </td>
                   <td>
                   {item.created_at ? (new Date(item.created_at)).toLocaleString('en-UK', {
@@ -116,11 +176,11 @@ const JobListingsTable = () => {
                         </li> */}
 
 <li>
-  <a href={`/admin-dash/edit-job/${item._id}`}>
+  {/* <a href={`/admin-dash/edit-job/${item._id}`}> */}
     <button data-text="Edit">
       <span className="la la-pencil"></span>
      </button>
-  </a>
+  {/* </a> */}
 </li>
                         {/* <li>
                           <button data-text="Delete Aplication">

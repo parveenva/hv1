@@ -33,7 +33,7 @@ export const homeItems = [
             },
             {
                 name: "Home Page 07",
-                routePath: "/home-7",
+                routePath: "/home",
             },
             {
                 name: "Home Page 08",
@@ -96,7 +96,7 @@ export const findJobItems = [
         items: [
             {
                 name: "Job List V1",
-                routePath: "/job-list-v1",
+                routePath: "/jobs",
             },
             {
                 name: "Job List V2",
@@ -285,7 +285,7 @@ export const candidateItems = [
 export const blogItems = [
     {
         name: "Blog List V1",
-        routePath: "/blog-list-v1",
+        routePath: "/courses",
     },
     {
         name: "Blog List V2",

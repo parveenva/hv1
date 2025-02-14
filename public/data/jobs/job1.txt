@@ -1,0 +1,51 @@
+{
+  "jobTitle": "Restaurant Manager",
+  "location": "Dallas, Texas",
+  "industry": "Hospitality / Restaurant",
+  "employmentType": "Full-time",
+  "salary": "Competitive, based on experience (plus benefits)",
+  "companyName": "TheGoodPizza.com",
+  "about": "TheGoodPizza.com is a premier pizzeria based in Dallas, Texas, known for its delicious, hand-crafted pizzas, exceptional customer service, and commitment to quality ingredients. Our mission is to provide a memorable dining experience to every guest while creating a positive and welcoming work environment for our team. We're looking for an experienced and passionate Restaurant Manager to join our growing team and lead our Dallas location to continued success.",
+  "jobSummary": "We are seeking an experienced and dynamic Restaurant Manager to oversee the daily operations of our Dallas location. As a Restaurant Manager, you will be responsible for ensuring high standards of quality and service, managing staff, maintaining operational efficiency, and driving the growth of the business while adhering to the values that make TheGoodPizza.com a local favorite.",
+  "keyResponsibilities": [
+    "Oversee daily operations of the restaurant, ensuring high standards of food quality, customer service, and cleanliness.",
+    "Lead, train, and manage restaurant staff, including servers, kitchen staff, and supervisors.",
+    "Manage inventory and supplies, ensuring optimal stock levels and cost control.",
+    "Implement and enforce health and safety regulations, as well as TheGoodPizza.com policies and procedures.",
+    "Create and manage staff schedules to ensure smooth operations.",
+    "Monitor financial performance, including budgeting, reporting, and analyzing sales and costs.",
+    "Resolve customer issues and complaints in a professional and timely manner, ensuring guest satisfaction.",
+    "Foster a positive work environment, promoting teamwork and collaboration.",
+    "Assist with menu creation and updates in collaboration with the culinary team.",
+    "Organize and execute special events, promotions, and seasonal menu offerings.",
+    "Ensure compliance with local laws, health codes, and licensing requirements.",
+    "Conduct regular staff performance reviews and provide ongoing coaching and training."
+  ],
+  "requirements": [
+    "Proven experience as a Restaurant Manager, Assistant Manager, or similar role in a restaurant setting.",
+    "Strong leadership, organizational, and communication skills.",
+    "Knowledge of restaurant management software (POS systems, scheduling tools, etc.).",
+    "Ability to multitask and work efficiently in a high-paced environment.",
+    "Exceptional customer service and problem-solving skills.",
+    "Strong understanding of financials, budgeting, and cost control in a restaurant.",
+    "Ability to lead and motivate a team with diverse skill sets.",
+    "Flexibility to work nights, weekends, and holidays as required.",
+    "High school diploma or equivalent required; a degree in hospitality management is a plus."
+  ],
+  "preferredQualifications": [
+    "3+ years of experience as a Restaurant Manager or in a similar leadership role in the hospitality industry.",
+    "Familiarity with Texas state laws and regulations for food service establishments.",
+    "Bilingual in English and Spanish (preferred but not required).",
+    "Understanding of local dining trends and customer preferences in the Dallas area."
+  ],
+  "benefits": [
+    "Competitive salary with performance-based bonuses.",
+    "Health, dental, and vision insurance.",
+    "Paid time off (PTO) and holiday pay.",
+    "Employee discounts on food and beverages.",
+    "Opportunities for career advancement and professional development.",
+    "A supportive and positive team environment.",
+    "401(k) retirement plan with company match."
+  ],
+  "applicationDetails": "If you are passionate about the restaurant industry and want to be a part of TheGoodPizza.com team, we would love to hear from you! Please send your resume and cover letter to [email address] or apply directly on our website at TheGoodPizza.com/careers."
+}

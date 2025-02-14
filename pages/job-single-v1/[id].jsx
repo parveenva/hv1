@@ -125,7 +125,7 @@ const JobSingleDynamicV1 = () => {
 
   return (
     <>
-      <Seo pageTitle="Jobs for freshers in India" />
+      <Seo pageTitle="Jobs" />
 
       {/* <!-- Header Span --> */}
       <span className="header-span"></span>

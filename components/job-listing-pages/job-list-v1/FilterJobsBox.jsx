@@ -266,9 +266,17 @@ const FilterJobsBox = () => {
                             <li>
                                 <span className="icon flaticon-money"></span>{" "}
                                 {item.salaryType === 'fixed' ? (
-  <span>{item.salaryFixed}</span>
-) : (
-  <span>{item.salaryRangeMin} - {item.salaryRangeMax}</span>
+  <span>{item.salaryFixed && new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(item.salaryFixed)}
+  {item.ctcFrequency === 'ANNUAL' && ' per year'}
+  {item.ctcFrequency !== 'ANNUAL' && ' per month'}
+  </span>
+
+  ) : (
+    <span>{item.salaryRangeMin && new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(item.salaryRangeMin)} - {item.salaryRangeMax && new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(item.salaryRangeMax)}
+    {item.ctcFrequency === 'ANNUAL' && ' per year'}
+    {item.ctcFrequency !== 'ANNUAL' && ' per month'}
+    </span>
+
 )}
                             </li>
                             {/* salary info */}

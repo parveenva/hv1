@@ -41,7 +41,7 @@ const Index = () => {
         
             {mobileMenuData.map((item) => (
  
-        (!item.auth ) || (item.auth && getIsLoggedIn()) ? (
+        (!item.auth ) || (item.auth && getIsLoggedIn() && (item.role==='all' || item.role===getUserRole()) ) ? (
                   <MenuItem
                className={
                 isActiveLink(item.routePath, router.asPath)

@@ -11,11 +11,11 @@ const FilterTopBox = () => {
 
   return (
     <Container fluid className="my-5">
-      <h1 className="text-center mb-4">Welcome to Our Blog</h1>
+      {/* <h1 className="text-center mb-4">Welcome to Our Blog</h1> */}
       <Row>
         {/* Blog List (Left-aligned) */}
-        <Col md={4}>
-          <h2 className="mb-3">Blog Posts</h2>
+        <Col md={3}>
+          {/* <h2 className="mb-3">Blog Posts</h2> */}
           <ul className="list-group">
             {sampleBlogContent.map((blog) => (
               <li
@@ -31,7 +31,7 @@ const FilterTopBox = () => {
           </ul>
         </Col>
         {/* Selected Blog (Centered) */}
-        <Col md={8} className="d-flex align-items-center justify-content-center">
+        <Col md={9} className="d-flex align-items-center justify-content-center">
           {selectedBlog ? (
             <Card>
               <Card.Body>
@@ -51,4 +51,3 @@ const FilterTopBox = () => {
 };
 
 export default FilterTopBox;
-    

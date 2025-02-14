@@ -74,9 +74,9 @@ const FormContent = ({ isPopupOpen, setIsPopupOpen, closeButtonRef }) => {
 if (userRole === "candidate") {
   router.push("/candidates-dashboard/my-profile"); // Redirect to the candidate dashboard
 } else if (userRole === "employer") {
-  router.push("/admin-dash/candidates-list-v1"); // Redirect to the employer dashboard
+  router.push("/admin-dash/all-applications"); // Redirect to the employer dashboard
 } else if (userRole === "admin") {
-  router.push("/admin-dash/candidates-list-v1"); // Redirect to the employer dashboard
+  router.push("/admin-dash/all-applications"); // Redirect to the employer dashboard
 } else {
   // Handle other roles or default case
   // For example, if there are other roles, you can redirect them to their respective dashboards

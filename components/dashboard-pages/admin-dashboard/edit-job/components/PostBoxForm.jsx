@@ -218,7 +218,7 @@ const PostBoxForm = ({ onSubmit }) => {
           <label>Company</label>
           <select
             name="company"
-            value={formData.company}
+            value={formData.company._id}
             onChange={handleChange}
           >
             <option value="">Select Company</option>

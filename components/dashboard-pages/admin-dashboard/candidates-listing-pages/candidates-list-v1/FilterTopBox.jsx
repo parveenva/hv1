@@ -39,7 +39,13 @@ const FilterTopBox = () => {
     const [leadCategoryFilter, setLeadCategoryFilter] = useState('Candidate'); // Set "Candidate" as the default value
 
     const handleLeadCategoryFilterChange = (e) => {
-      setLeadCategoryFilter(e.target.value);
+
+      const newLeadCategoryFilter = e.target.value;
+
+
+      sessionStorage.setItem('leadCategoryFilter', newLeadCategoryFilter);
+
+      setLeadCategoryFilter(newLeadCategoryFilter);
     };
     
     const { setToken,getToken,logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
@@ -90,6 +96,7 @@ const [sourceOptions, setSourceOptions] = useState([]);
     const handleSearch = () => {
         console.log("in handleSearch");
         // Dispatch an action to update the filter with the search query
+        fetchTotalCandidates();
         fetchCandidates(1,searchQuery);
       };
       
@@ -112,9 +119,25 @@ const [sourceOptions, setSourceOptions] = useState([]);
             let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}candidate/total`;
 
 
-            if (isAdmin && leadCategoryFilter) {
-              apiUrl += `?leadCategory=${encodeURIComponent(leadCategoryFilter)}`;
+            
+            // if (isAdmin && leadCategoryFilter) {
+            //   apiUrl += `?leadCategory=${encodeURIComponent(leadCategoryFilter)}`;
+            // }
+
+           // If a search query is provided, add it to the API URL
+            if (searchQuery) {
+              apiUrl += `&query=${encodeURIComponent(searchQuery)}`;
             }
+        
+            if(statusFilter){
+              apiUrl += `&statusFilter=${encodeURIComponent(statusFilter)}`;
+            }
+    
+            if(ownerFilter){
+              apiUrl += `&ownerFilter=${encodeURIComponent(ownerFilter)}`;
+            }
+            
+        
 
             const response = await fetch(apiUrl, {
     
@@ -154,15 +177,23 @@ const [sourceOptions, setSourceOptions] = useState([]);
 
         let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}candidate?page=${page}`;
 
-        if (isAdmin && leadCategoryFilter) {
-          apiUrl += `&leadCategory=${encodeURIComponent(leadCategoryFilter)}`;
-        }
+        // if (isAdmin && leadCategoryFilter) {
+        //   apiUrl += `&leadCategory=${encodeURIComponent(leadCategoryFilter)}`;
+        // }
 
         // If a search query is provided, add it to the API URL
         if (searchQuery) {
           apiUrl += `&query=${encodeURIComponent(searchQuery)}`;
         }
     
+        if(statusFilter){
+          apiUrl += `&statusFilter=${encodeURIComponent(statusFilter)}`;
+        }
+
+        if(ownerFilter){
+          apiUrl += `&ownerFilter=${encodeURIComponent(ownerFilter)}`;
+        }
+        
         const response = await fetch(apiUrl, {
 
             method: 'GET', // Specify the HTTP method (GET in this case)
@@ -377,6 +408,14 @@ const populateLeadOwner = async () => {
 
   
     useEffect(() => {
+
+      // Retrieve the saved filter value from localStorage
+ // const savedLeadCategoryFilter = sessionStorage.getItem('leadCategoryFilter');
+
+  // Set the state with the saved value, or use a default if it doesn't exist
+  //setLeadCategoryFilter(savedLeadCategoryFilter || 'Candidate');
+
+
         // Fetch candidates from the API
         fetchTotalCandidates();
 
@@ -526,24 +565,7 @@ const populateLeadOwner = async () => {
   {isAdmin && (
           <div className="d-flex align-items-center">
 
-        <div className="row mb-12">
-          <div className="col-md-6">
-            <label className="form-label">Lead Category</label>
-          </div>
-          <div className="col-md-6">
-          <select
-              name="leadCategoryFilter"
-              value={leadCategoryFilter}
-              onChange={handleLeadCategoryFilterChange}
-              className="form-select"
-            >
-               <option value="HR">HR</option>
-              <option value="Candidate">Candidate</option>
-              {/* Add more options based on your categories */}
-            </select>
-          </div>
-          </div>
-
+  
           </div>
        )}
 
@@ -554,10 +576,10 @@ const populateLeadOwner = async () => {
 {/* Owner Filter */}
 <div className="me-3">
 <select
-      name="leadOwner"
-          onChange={handleInputChange}
-      className="form-select"
-    >
+    className="form-select"
+    value={ownerFilter}
+    onChange={(e) => setOwnerFilter(e.target.value)}
+       >
       <option value="">Filter Lead Owner</option>
       {leadOwners.map((owner) => (
         <option key={owner._id} value={owner._id} >
@@ -687,13 +709,15 @@ const populateLeadOwner = async () => {
 
             <th>Name</th>
             {leadCategoryFilter === 'HR' && <th>Company</th>}
+            {leadCategoryFilter === 'HR' && <th>Opening</th>}
 
             <th>Phone</th>
+            <th>Status</th>
+
             {leadCategoryFilter === 'HR' && <th>Email</th>}
 
             <th>City</th>
             <th>Source</th>
-            <th>Status</th>
             {leadCategoryFilter !== 'HR' && <th>Owner</th>}
             <th>Last Contact</th>
             {leadCategoryFilter !== 'HR' && <th>Next</th>}
@@ -719,14 +743,21 @@ const populateLeadOwner = async () => {
        {`${candidate.name}`}
     </Link>
                     </td>
-                    {leadCategoryFilter === 'HR' && <td>{candidate.company}</td>}
 
+                    
+                    {leadCategoryFilter === 'HR' && <td>{candidate.company || (candidate.companyID && candidate.companyID.name) || ''}</td>}
+
+                    {leadCategoryFilter === 'HR' && <td>{candidate.jobOpening}</td>}
+
+
+                    
                 <td>{candidate.phone}</td>
+                <td>{candidate.leadStatus}</td>
+
                 {leadCategoryFilter === 'HR' && <td>{candidate.email}</td>}
 
                 <td>{candidate.currentCity}</td>
                 <td>{candidate.leadSource}</td>
-                <td>{candidate.leadStatus}</td>
                 {/* Display lead owner's name if available */}
                 
 

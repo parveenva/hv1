@@ -90,7 +90,7 @@ const prevPage = () => {
 
 
 
-        let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}candidate/total-calls?${queryString}`;
+        let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}candidate/total-calls?leadCategory=Candidate&${queryString}`;
 
         const response = await fetch(apiUrl, {
 
@@ -123,7 +123,7 @@ const prevPage = () => {
       const queryString = new URLSearchParams(filters).toString();
 
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}candidate/all-calls?page=${currentPage}&${queryString}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}candidate/all-calls?leadCategory=Candidate&page=${currentPage}&${queryString}`, {
       method: 'GET',
       headers: {
           'Authorization': `Bearer ${accessToken}`,
@@ -222,7 +222,9 @@ const prevPage = () => {
           <thead>
             <tr>
             <th>Call Date/Time</th>
-              <th>Candidate Name</th>
+              <th>Name</th>
+              <th>Phone</th>
+
                <th>Old Lead Status</th>
               <th>New Lead Status</th>
               <th>Comments</th>
@@ -235,9 +237,11 @@ const prevPage = () => {
             {allCalls.map((call) => (
               <tr key={call._id}>
 
-              <td>{call.actionDate ? new Date(call.actionDate).toLocaleDateString() : ''}</td>
+<td>{call.actionDate ? `${new Date(call.actionDate).toLocaleDateString()} ${new Date(call.actionDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : ''}</td>
 
               <td>{call.candidate.name}</td>
+              <td>{call.candidate.phone}</td>
+
                <td>{call.oldLeadStatus}</td>
               <td>{call.newLeadStatus}</td>
                <td>{call.comments}</td>

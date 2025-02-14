@@ -36,14 +36,19 @@ const FilterTopBox = () => {
   const statusMap = {
     1: 'New lead',
     2: 'Contacted',
+    10:'Not reachable',
+    14: 'Wrong phone',
     3: 'Scheduled Follow-up',
     4: 'Office Visit Scheduled',
     5: 'Office Visit Completed',
     6: 'Interested',
     7: 'All steps completed',
-    8: 'Converted',
+    13:'Consent Revent Awaited',
+    8: 'Converted - Job Only',
+    11: 'Converted - PAP',
+    12: 'Converted - Retail',
     9: 'Not interested',
-    10: 'Not reachable',
+   
   };
   
   const { setToken,getToken,logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
@@ -184,8 +189,13 @@ const populateLeadOwner = async () => {
     <div>
 
 <div>
+
+  
   <div className="row">
-    {/* User Dropdown Filter */}<div className="col-md-6">
+    {/* User Dropdown Filter */}
+    {getUserRole() === "admin" && (
+
+    <div className="col-md-6">
   <label>User:</label>
   <select
     value={selectedUser}
@@ -202,7 +212,7 @@ const populateLeadOwner = async () => {
     ))}
   </select>
 </div>
-
+    )}
 
     {/* Date Filter */}
     <div className="col-md-6">

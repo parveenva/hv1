@@ -29,7 +29,7 @@ export default [
             },
             {
                 name: "Home Page 07",
-                routePath: "/home-7",
+                routePath: "/home",
             },
             {
                 name: "Home Page 08",
@@ -251,7 +251,7 @@ export default [
         items: [
             {
                 name: "Blog List V1",
-                routePath: "/blog-list-v1",
+                routePath: "/courses",
             },
             {
                 name: "Blog List V2",

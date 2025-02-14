@@ -5,6 +5,13 @@ import { useRouter } from "next/router";
 import { useAuth } from "../../../../../app/authContext";
 
 const PostBoxForm = () => {
+
+  const [updateJob, setUpdateJob] = useState(false);
+
+  const handleCheckboxChange = (e) => {
+    setUpdateJob(e.target.checked);
+  };
+
   // State to store form data
   const router = useRouter();
   const { setToken,getToken,logout , setIsLoggedIn,setUserRole,setUserId,getIsLoggedIn,getUserRole,getUserId} = useAuth();
@@ -166,6 +173,11 @@ const PostBoxForm = () => {
 
       const accessToken = getToken();
 
+      const body = {
+        ...formData,
+        updateJob, // Include the updateJob property
+      };
+
       // Make a POST request to create a new candidate
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}candidate/parse-lead`, {
         method: "POST",
@@ -174,7 +186,7 @@ const PostBoxForm = () => {
 
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(body),
       });
 
       if (!response.ok) {
@@ -344,6 +356,20 @@ className="form-select"
 </select>
 </div>
 </div>
+
+<div className="mb-3 form-check">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="updateJobCheckbox"
+            name="updateJob"
+            checked={updateJob}
+            onChange={handleCheckboxChange}
+          />
+          <label className="form-check-label" htmlFor="updateJobCheckbox">
+            Update existing jobs?
+          </label>
+        </div>
 
         <button type="submit" className="btn btn-primary"
           disabled={isLoading} // Disable the button when loading

@@ -38,7 +38,7 @@ const TutorialSidebar = () => {
                             onClick={menuToggleHandler}
                         >
                             <Link href={item.routePath}>
-                                {item.name}
+                                    {item.name}
                             </Link>
                         </li>
                     ))}

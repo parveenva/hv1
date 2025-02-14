@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from "next/router";
 import { useAuth } from "../../../../../app/authContext";
+import Select from 'react-select';
 
 
 const PostBoxForm = () => {
@@ -12,10 +13,15 @@ const PostBoxForm = () => {
 
   const [error, setError] = useState(null); // Error state
 
+  const [companies, setCompanies] = useState([]); // State to store the list of companies
+
+
   const [formData, setFormData] = useState({
     logCall: true, // Set it to true by default
     callDate:'',
     newLeadStatus :'',
+    leadCategory:'Candidate',
+
     followUpDate: '', // Add the Follow-Up Date field
 
 
@@ -26,6 +32,8 @@ const PostBoxForm = () => {
     phone: '',
     age: '',
     currentCity: '',
+    companyID:'',
+    companyName:'',
     languages: [],
     additionalInformation: '',
     gender: 'Male', // Default value
@@ -85,12 +93,37 @@ const PostBoxForm = () => {
     ],
   });
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+
   const [leadStatuses, setLeadStatus] = useState([]);
 
   const [showCompanyField, setShowCompanyField] = useState(false); // Track if Company field should be shown
   const [jobOpenings, setJobOpenings] = useState(["Java", "MERN"]); // Values for the Job Opening dropdown
 
   
+  const [enteredCompanyName, setEnteredCompanyName] = useState('');
+
+
+  const fetchCompanies = async () => {
+    try {
+      // Make an API request to fetch the list of companies
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}company`);
+      
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+  
+      const data = await response.json();
+      
+       // Set the 'companies' state variable with the fetched data
+       setCompanies(data);
+      } catch (error) {
+        console.error("Error fetching companies:", error);
+        // Handle errors here if needed
+      }
+    };
+
   const populateLeadStatus = async () => {
     try {
       // Make an API request to fetch the list of lead owners
@@ -128,13 +161,6 @@ const PostBoxForm = () => {
     }
 
 
-    if (name === 'leadCategory' ) {
-      if ( value === 'HR') {
-      setShowCompanyField(true);
-       } else {
-      setShowCompanyField(false);
-      }
-    }
   };
 
   // Function to handle form submission
@@ -159,7 +185,42 @@ const PostBoxForm = () => {
     return `${year}-${month}-${day}`;
   }
 
+  const handleCompanyChange = (selectedOption) => {
+    const companyId = selectedOption ? selectedOption.value : '';
+    const companyName = selectedOption ? selectedOption.label : '';
   
+     
+ 
+    if (companyId === 'new') {
+      // User selected "Add New," set a flag in form data
+      setFormData({
+        ...formData,
+        companyID: companyId, // Clear companyID if it's a new company
+        isNewCompany: true, // Set isNewCompany flag to true
+        companyName: companyName, // Clear the companyName as it's not in the dropdown
+      });
+
+      setEnteredCompanyName(companyName); // Trim any leading/trailing whitespace
+
+    } else {
+      // User selected an existing company, update form data
+      setFormData({
+        ...formData,
+        companyID: companyId,
+        companyName: companyName,
+        isNewCompany: false, // Set isNewCompany flag to false
+      });
+    }
+
+    setIsMenuOpen(false); // Close the dropdown menu after selecting "Add New"
+
+  };
+    
+  
+  const handleCompanyNameInputChange = (newValue) => {
+    setEnteredCompanyName(newValue);
+  };
+
   useEffect(() => {
     // Fetch candidate data from the API using candidateId
 
@@ -190,10 +251,8 @@ const PostBoxForm = () => {
 
     };
 
-    // Include leadCategory in the request body only for admin users
-    if (getUserRole() === 'admin') {
-      fdata.leadCategory = formData.leadCategory;
-    }
+    
+
   
       // Make a POST request to create a new candidate
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}candidate/admin`, {
@@ -272,29 +331,6 @@ const PostBoxForm = () => {
         {/* Add form fields for adding a candidate here */}
 
 
-        {getUserRole() === 'admin' && (
-  <div className="row mb-3">
-    <div className="col-md-3">
-      <label>Lead Category
-      <span className="text-danger">*</span> {/* Red star for mandatory field */}
-
-
-      </label>
-      <select
-        name="leadCategory"
-        className="form-control"
-        value={formData.leadCategory}
-        onChange={handleInputChange}
-      >
-        <option value="">Select Lead Category</option>
-        <option value='HR'>HR</option>
-        <option value='Candidate'>Candidate</option>
-                {/* Add more options as needed */}
-      </select>
-    </div>
-  </div>
-)}
-
 {showCompanyField && (
   <div>
     <div className="row mb-3">
@@ -303,14 +339,63 @@ const PostBoxForm = () => {
         <span className="text-danger">*</span> {/* Red star for mandatory field */}
 
         </label>
-        <input
-          type="text"
-          name="company"
-          value={formData.company}
-          onChange={handleInputChange}
-          className="form-control"
-          required // Make it mandatory when the leadCategory is "HR"
-        />
+
+
+        <Select
+  name="companyID"
+  value={
+    formData.companyID
+      ? { value: formData.companyID, label: formData.companyName }
+      : enteredCompanyName
+      ? { value: 'new', label: enteredCompanyName }
+      : null
+  }
+  
+  onChange={(selectedOption) => handleCompanyChange(selectedOption)}
+  options={[
+    ...companies.map((company) => ({
+      value: company._id,
+      label: company.name,
+    })),
+    { value: 'new', label: 'Add New' }, // Add an "Add New" option
+  ]}
+  placeholder="Select Company"
+  isSearchable
+  inputValue={enteredCompanyName}
+  onInputChange={handleCompanyNameInputChange}
+  noOptionsMessage={({ inputValue }) => {
+    return inputValue ? (
+      <>
+        No options found.{' '}
+        <span
+          onClick={() => handleCompanyChange({ value: 'new', label: inputValue })}
+          style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+        >
+          Add New
+        </span>
+      </>
+    ) : null;
+  }}
+  required // Make it mandatory when the leadCategory is "HR"
+  
+  onMenuOpen={() => setIsMenuOpen(true)} // Open the menu when it's opened
+ 
+  onMenuClose={() => {
+    setIsMenuOpen(false)
+
+    if (formData.isNewCompany) {
+      // If it's a new company, keep the entered name
+      setFormData({
+        ...formData,
+        companyName: enteredCompanyName,
+      });
+    }
+  }}
+  menuIsOpen={isMenuOpen} // Control the menu's visibility with the isMenuOpen state variable
+
+/>
+
+
       </div>
       <div className="col-md-3">
         <label>Job Opening

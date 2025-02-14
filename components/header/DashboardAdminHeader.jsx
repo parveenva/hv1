@@ -40,7 +40,7 @@ const DashboardHeader = () => {
                                 <Link href="/">
                                     <Image
                                         alt="brand"
-                                        src="/images/logo.png"
+                                        src="/images/logo25.png"
                                         width={154}
                                         height={50}
                                         priority
@@ -50,7 +50,7 @@ const DashboardHeader = () => {
                         </div>
                         {/* End .logo-box */}
 
-                        <HeaderNavContent />
+                        {/* <HeaderNavContent /> */}
                         {/* <!-- Main Menu End--> */}
                     </div>
                     {/* End .nav-outer */}
@@ -86,8 +86,9 @@ const DashboardHeader = () => {
                             </a>
 
                             <ul className="dropdown-menu">
-                                {employerMenuData.map((item) => (
-                                    <li
+                            {employerMenuData
+  .filter((item) => item.myaccount === true)
+  .map((item) => (                                    <li
                                         className={`${
                                             isActiveLink(
                                                 item.routePath,
